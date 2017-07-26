@@ -18,7 +18,14 @@ class UsersController extends AppController
         parent::beforeFilter();
         $this->Auth->allow('login','add');
     }
-
+    public function profile() {
+        $this->layout = 'layoutUI';
+//        $query = $this->User->find('all');
+        $id = $this->Auth->user('id');
+        $query = $this->User->find('all', array(
+            'conditions'=>array('User.id' => $id)));
+        $this->set('users', $query);
+    }
     public function login() {
 
     $this->layout = 'layoutUI';

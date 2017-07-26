@@ -22,7 +22,7 @@
                 <?php if ($this->Session->read('Auth.User')): ?>
                 <!--<li><a href="#"><img src="<?php echo $this->Session->read('Auth.User.upload'); ?>" class="profile-mage"></a> </li>-->
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a href="admin">Profile</a></li>
+                    <li><a href="profile">Profile</a></li>
                     <li><a href="logout">Logout</a></li>
 
                     <!--<li class="dropdown">-->
