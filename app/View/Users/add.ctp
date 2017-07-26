@@ -5,7 +5,7 @@
         <?php echo $this->Form->create('User', array('enctype' => 'multipart/form-data')); ?>
         <legend>Sign Up</legend>
         <div class="form-group">
-            <?php echo $this->Form->input('email', array( 'class' => 'form-control')) ;  ?>
+            <?php echo $this->Form->input('email', array( 'class' => 'form-control', 'type' => 'email')) ;  ?>
         </div>
         <div class="form-group">
             <?php echo $this->Form->input('username', array( 'class' => 'form-control')) ;  ?>

@@ -10,27 +10,16 @@ class PostsController extends AppController
 {
     public $helpers = array('Html', 'Form');
 
-//    public function isAuthorized($user) {
-//        // All registered users can add posts
-//        if ($this->action === 'add') {
-//            return true;
-//        }
-//
-//        // The owner of a post can edit and delete it
-//        if (in_array($this->action, array('edit', 'delete'))) {
-//            $postId = (int) $this->request->params['pass'][0];
-//            if ($this->Post->isOwnedBy($postId, $user['id'])) {
-//                return true;
-//            }
-//        }
-//
-//        return parent::isAuthorized($user);
-//    }
+
     public function index() {
         $this->layout = 'layoutUI';
         $id = $this->Auth->user('id');
+//        $query = $this->Post->find('all', array(
+//            'conditions'=>array('Post.user_id' => $id)));
         $query = $this->Post->find('all', array(
-            'conditions'=>array('Post.user_id' => $id)));
+            'order' => 'Post.created DESC'
+        ));
+//        $query = $this->Post->find('all');
         $this->set('posts', $query);
 //        echo "ASDASDA" .  $this->Auth->user('role');
 

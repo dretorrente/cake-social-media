@@ -61,30 +61,58 @@
 <!--</table>-->
 
 <section class="row posts">
-    <div class="col-md-6 col-md-offset-3">
-        <header><h3>What's on your mind..</h3></header>
+    <div class=" col-md-3">
+     <h3>News Feed</h3>
+    </div>
+    <div class="col-md-6">
+        <header><h3></h3></header>
         <form action="add" method="post">
             <!--<?php echo $this->Form->input('user_id'); ?>-->
             <div class="form-group">
-                <textarea class="form-control" name="body" id="new-post" rows="3" placeholder="Your Content"></textarea>
+                <textarea class="form-control" name="status" id="new-post" rows="3" placeholder="What's on your mind.."></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Create Post</button>
 
         </form>
-        <!--<?php foreach ($posts as $post): ?>-->
-        <article class="post">
-            <p><?php echo $post['Post']['body'] ?>;</p>
-            <div class="info">
-                <!--Posted by <?php if ($this->Session->read('Auth.User')): ?> <?php echo $this->Session->read('Auth.User.username'); ?>-->
-                <!--<?php endif; ?> on  <?php echo $post['Post']['created']; ?>-->
-            </div>
-            <div class="interaction">
-                <a href="#">Like</a>
-                <!--<a href="#">Dislike</a>-->
-                <!--<a href="#">Delete</a>-->
-            </div>
-        </article>
-        <!--<?php endforeach; ?>-->
+
+
+
+    </div>
+</section>
+
+
+<section class="row" >
+    <div class="col-md-6 col-md-offset-3">
+    <?php foreach ($posts as $post): ?>
+    <article class="post">
+        <p><?php echo $post['Post']['status'] ?>;</p>
+        <div class="info">
+            Posted by <?php echo $post["User"]["username"]?>
+            <!--Posted by <?php if ($this->Session->read('Auth.User')): ?> <?php echo $this->Session->read('Auth.User.username'); ?>-->
+            <?php endif; ?> on  <?php echo $post['Post']['created']; ?>
+        </div>
+        <div class="interaction">
+            <a href="#" class="like">Comment |</a>
+            <a href="#" class="like">Like |</a>
+            <?php
+                echo $this->Html->link(
+            'Edit |', array('action' => 'edit', $post['Post']['id'])
+            );
+            ?>
+            <?php
+                echo $this->Form->postLink(
+            'Delete ',
+            array('action' => 'delete', $post['Post']['id']),
+            array('confirm' => 'Are you sure?')
+            );
+            ?>
+
+
+            <!--<a href="#">Dislike</a>-->
+            <!--<a href="#">Delete</a>-->
+        </div>
+    </article>
+    <?php endforeach; ?>
     </div>
 </section>
 

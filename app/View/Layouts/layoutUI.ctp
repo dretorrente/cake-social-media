@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -19,19 +20,20 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <?php if ($this->Session->read('Auth.User')): ?>
-                <li><a href="#"><img src="<?php echo $this->Session->read('Auth.User.upload'); ?>" class="profile-mage"></a> </li>
+                <!--<li><a href="#"><img src="<?php echo $this->Session->read('Auth.User.upload'); ?>" class="profile-mage"></a> </li>-->
                     <li class="active"><a href="#">Home</a></li>
+                    <li><a href="admin">Profile</a></li>
+                    <li><a href="logout">Logout</a></li>
 
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <!--<?php if ($this->Session->read('Auth.User')): ?>-->
-                                <li><a href="admin">Profile</a></li>
-                                <li><a href="logout">Logout</a></li>
-                            <!--<?php endif; ?>-->
-
-                        </ul>
-                    </li>
+                    <!--<li class="dropdown">-->
+                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>-->
+                        <!--<ul class="dropdown-menu">-->
+                            <!--&lt;!&ndash;<?php if ($this->Session->read('Auth.User')): ?>&ndash;&gt;-->
+                                <!--<li><a href="admin">Profile</a></li>-->
+                                <!--<li><a href="logout">Logout</a></li>-->
+                            <!--&lt;!&ndash;<?php endif; ?>&ndash;&gt;-->
+                        <!--</ul>-->
+                    <!--</li>-->
                 <?php else: ?>
                     <li class="active"><a href="#">Home</a></li>
                     <li> <?php echo $this->Html->link( "Login",   array('action'=>'login') ); ?></li>

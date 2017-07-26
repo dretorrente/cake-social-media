@@ -11,6 +11,13 @@ class User extends AppModel {
  *
  * @var array
  */
+
+    public $hasMany = array(
+        'Post' => array(
+            'className' => 'Post',
+            'foreignKey' => 'user_id'
+
+        ));
 	public $validate = array(
 		'username' => array(
 			'alphaNumeric' => array(
