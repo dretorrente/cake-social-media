@@ -17,7 +17,24 @@ class User extends AppModel {
             'className' => 'Post',
             'foreignKey' => 'user_id'
 
-        ));
+        ),
+        'Comment' => array(
+            'className' => 'Comment',
+            'foreignKey' => 'user_id'
+
+        ),
+        'Follow' => array(
+            'className' => 'Follow',
+            'foreignKey' => 'user_id'
+
+        ),
+        'LikesController' => array(
+            'className' => 'Follow',
+            'foreignKey' => 'user_id'
+
+        )
+    );
+
 	public $validate = array(
 		'username' => array(
 			'alphaNumeric' => array(

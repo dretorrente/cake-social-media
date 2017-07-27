@@ -31,18 +31,18 @@ class Post extends AppModel {
 			'order' => ''
 		)
 	);
-//    public $hasMany = array(
-//        'Like' => array(
-//            'className' => 'Like',
-//            'foreignKey' => 'user_id'
-//
-//        ),
-//        'Comment' => array(
-//            'className' => 'Comment',
-//            'foreignKey' => 'user_id'
-//
-//        )
-//    );
+    public $hasMany = array(
+        'Like' => array(
+            'className' => 'Like',
+            'foreignKey' => 'post_id'
+
+        ),
+        'Comment' => array(
+            'className' => 'Comment',
+            'foreignKey' => 'post_id'
+
+        )
+    );
 
     public $validate = array(
 

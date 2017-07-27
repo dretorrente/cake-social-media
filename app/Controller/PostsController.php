@@ -8,17 +8,21 @@
  */
 class PostsController extends AppController
 {
+    public $uses = array('Post', 'Comment', 'User');
     public $helpers = array('Html', 'Form');
+
 
 
     public function index() {
         $this->layout = 'layoutUI';
+
         $id = $this->Auth->user('id');
-        $query = $this->Post->find('all', array(
-            'conditions'=>array('Post.user_id' => $id)));
 //        $query = $this->Post->find('all', array(
-//            'order' => 'Post.created DESC'
-//        ));
+//            'conditions'=>array('Post.user_id' => $id)));
+        $query = $this->Post->find('all', array(
+            'order' => 'Post.created DESC',
+            'recursive' => 2
+        ));
 //        $query = $this->Post->find('all');
         $this->set('posts', $query);
 //        echo "ASDASDA" .  $this->Auth->user('role');
