@@ -47,8 +47,18 @@
 <div class="container clearfix">
     <?= $this->fetch('content') ?>
 </div>
-<footer>
-</footer>
+<!--<footer>-->
+    <!--<div class="container">-->
+        <!--<div class="navbar-text pull-left">-->
+            <!--<p>copyright Sample CakePHP 2017 </p>-->
+        <!--</div>-->
+        <!--<div class="navbar-text pull-right">-->
+            <!--<a href="#"><i class="fa fa-facebook fa-2x"></i></a>-->
+            <!--<a href="#"><i class="fa fa-twitter fa-2x"></i></a>-->
+            <!--<a href="#"><i class="fa fa-google-plus fa-2x"></i></a>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</footer>-->
 
 
 <script

@@ -8,7 +8,7 @@
  */
 class CommentsController extends AppController
 {
-    public $uses = array('Post', 'Comment', 'User');
+    public $uses = array('Post', 'Comment', 'User', 'Follow', 'Like');
     public $helpers = array('Html', 'Form');
     public function addComment()
     {
@@ -21,7 +21,8 @@ class CommentsController extends AppController
             $this->Comment->create();
             if ($this->Comment->save($this->request->data)) {
 //                $this->Flash->success(__('Your post has been saved.'));
-                return $this->redirect(array('controller' => 'posts','action' => 'index'));
+//                return $this->redirect(array('controller' => 'posts','action' => 'index'));
+                $this->redirect($this->referer());
             }
             $this->Flash->error(__('Unable to add your post.'));
 

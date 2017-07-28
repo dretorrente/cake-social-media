@@ -6,7 +6,7 @@
  * Date: 27/07/2017
  * Time: 3:36 PM
  */
-class Like extends  AppModel
+class Like extends AppModel
 {
     public $belongsTo = array(
         'User' => array(

@@ -8,12 +8,9 @@
  */
 class UsersController extends AppController
 {
-//    public $paginate = array(
-//        'limit' => 25,
-//        'conditions' => array('status' => '1'),
-//        'order' => array('User.username' => 'asc' )
-//    );
 
+    public $uses = array('Post', 'Comment', 'User','Follow','Like');
+    public $helpers = array('Html', 'Form');
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('login','add');
@@ -21,11 +18,15 @@ class UsersController extends AppController
     public function profile() {
         $this->layout = 'layoutUI';
         $username = $this->request->params['username'];
-//        $query = $this->User->find('all');
         $id = $this->Auth->user('id');
-        $query = $this->User->find('all', array(
-            'conditions'=>array('User.username' => $username)));
-        $this->set('users', $query);
+//        $query = $this->User->find('all');
+        $query = $this->User->find('first', array(
+            'conditions'=> array(
+                'User.username' => $username,
+            ),
+            'recursive' => 3)
+        );
+        $this->set('user', $query);
     }
     public function login() {
 

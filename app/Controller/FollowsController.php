@@ -8,7 +8,7 @@
  */
 class FollowsController extends AppController
 {
-    public $uses = array('Post', 'Comment', 'User','Follow');
+    public $uses = array('Post', 'Comment', 'User','Follow', 'Like');
     public $helpers = array('Html', 'Form');
     public function addFollow()
     {

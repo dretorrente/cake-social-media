@@ -28,8 +28,8 @@ class User extends AppModel {
             'foreignKey' => 'user_id'
 
         ),
-        'LikesController' => array(
-            'className' => 'Follow',
+        'Like' => array(
+            'className' => 'Like',
             'foreignKey' => 'user_id'
 
         )

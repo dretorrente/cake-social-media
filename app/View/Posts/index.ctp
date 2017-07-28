@@ -16,7 +16,7 @@
 </section>
 
 
-<section class="row" >
+<section class="row section2" >
     <div class="col-md-6 col-md-offset-3">
     <?php foreach ($posts as $post): ?>
     <article class="post">
@@ -35,14 +35,20 @@
         </div>
         <p class="contentPost"><?php echo $post['Post']['status'] ?></p>
 
-        <div class="interaction comment-interact">
-            <a href="#" class="comment">Comment |</a>
+        <div class="interaction comment-interact" user_id="<?php echo $this->Session->read('Auth.User.id'); ?>" post_id ="<?php echo $post['Post']['id']?>">
 
-            <?php
-                echo $this->Html->link(
-            'Like |', array('controller' => 'likes', 'action' => 'isLike', $post['Post']['id']),array('class' => 'likes')
-            );
-            ?>
+
+            <a href="#" class="comment">Comment |</a>
+            <?php $userId =  $this->Session->read('Auth.User.id'); ?>
+            <?php $likeName = ''; ?>
+            <?php foreach($post['Like'] as $likePost): ?>
+            <?php if($likePost['isLike'] == true && $likePost['user_id'] == $userId): ?>
+            <?php $likeName = "Liked"; ?>
+            <?php endif ?>
+
+            <?php endforeach ?>
+            <a href="/likes/isLike/<?php echo $post['Post']['id']; ?>" class="like"><?php if(empty($likeName)):?><?php echo "Like |"; ?> <?php else: ?> <?php echo $likeName ." |"; ?> <?php endif; ?> </a>
+
             <?php
                 echo $this->Html->link(
             'Edit |', array('action' => 'edit', $post['Post']['id'])
@@ -55,7 +61,14 @@
             array('confirm' => 'Are you sure?')
             );
             ?>
-            <a href="#" class="postBadge pull-right">Likes<span class="badge">42</span></a>
+            <?php $countLike = 0; ?>
+            <?php foreach($post['Like'] as $likePost): ?>
+                <?php if($likePost['isLike'] == true): ?>
+                    <?php $countLike++; ?>
+                <?php endif ?>
+
+            <?php endforeach ?>
+            <a href="#" class="postBadge pull-right">Likes<span class="badge"><?php echo $countLike; ?></span></a>
             <?php $totalComment = 0; ?>
             <?php foreach($post['Comment'] as $comment): ?>
                     <?php $totalComment += count($comment['comment']); ?>
@@ -69,7 +82,7 @@
                         <img src="<?php echo $comment['User']['upload'];?>" alt="sample profile pic" class="imageComment"  >
                     </div>
                     <div class="col-md-10">
-                        <p><?php pr($comment['comment']); ?> </p>
+                        <p><?php echo($comment['comment']); ?> </p>
                     </div>
                 </div>
 

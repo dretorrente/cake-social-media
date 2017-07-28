@@ -22,6 +22,7 @@ article.post {
 }
 .userName {
     padding: 0px;
+    margin-left: 10px;
 }
 .postImage {
     max-height:50px;
@@ -43,4 +44,45 @@ article.post {
 .imageCol {
     margin-top: 5px;
     margin-bottom: 5px;
+}
+.samplePosts
+{
+    text-align: center;
+}
+.FollowerBadge
+{
+    margin-bottom: 30px;
+}
+.followButton
+{
+    margin-top: 10px;
+}
+.following-class
+{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+footer{
+    background-color: #222;
+    border: 1px solid #080808;
+    clear:both;
+}
+footer p {
+    color: #aaa;
+}
+.profile-div {
+    padding-bottom: 135px;
+}
+
+.login, .register {
+    padding-bottom: 240px;
+}
+
+.section2 {
+    padding-bottom: 60px;
+}
+.comment-profile
+{
+    margin-left: 10px;
 }

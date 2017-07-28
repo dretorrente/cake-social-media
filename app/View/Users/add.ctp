@@ -1,4 +1,4 @@
-<div class="row users form">
+<div class="row register form">
     <div class="col-md-4 col-md-offset-4">
         <?php echo $this->Form->create('User', array('enctype' => 'multipart/form-data')); ?>
         <legend>Sign Up</legend>
