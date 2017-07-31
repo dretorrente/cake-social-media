@@ -74,6 +74,12 @@ class User extends AppModel {
                 'message' => 'Password must have a mimimum of 6 characters'
             )
 		),
+        'upload' => array(
+            'required' => array(
+                'rule' => array('notBlank')
+            ),
+
+        ),
 		'email' => array(
 			'required' => array(
 				'rule' => array('email',true),
