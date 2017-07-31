@@ -86,7 +86,7 @@ class UsersController extends AppController
                         $this->request->data['User']['upload']['name'] = $filetmp;
                         $filenew =  $this->request->data['User']['upload']['name'];
                         $this->request->data['User']['upload'] = $filenew;
-//                        pr($this->data['User']['upload']);
+//
                     }
                 }
             }
