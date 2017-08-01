@@ -15,13 +15,17 @@
                 <?php $userID = $this->Session->read('Auth.User.id'); ?>
 
                 <?php foreach($user['Follow'] as $userFollow): ?>
-                    <?php $totalFollow++; ?>
+                   <?php $totalFollow++; ?>
+                 
                 <?php endforeach ?>
                 <a href="#" class="FollowerBadge">Following<span class="badge following-class"><?php echo $totalFollow; ?></span></a>
-                <!--<?php pr($user['User']); ?>-->
+                 <?php if($this->Session->read('Auth.User.id') != $user['User']['id'] ): ?>
                 <form action="/addFollow/<?php echo $user['User']['id']; ?>" method="post" >
                     <button type="submit" class="btn btn-info followButton">Follow</button>
-                </form>
+                 </form>
+
+                <?php endif; ?>
+              
 
             </div>
 
@@ -29,7 +33,15 @@
     </div>
 
     <div class="col-md-9">
-        <h1 class="samplePosts">Your Sample Post</h1>
+        <h1 class="samplePosts">
+
+            <?php if($user['User']['id'] == $this->Session->read('Auth.User.id')): ?>
+            Your Sample Post
+            <?php else: ?>
+               <?php echo $user['User']['username'] . " Post" ?>
+            <?php endif; ?>
+
+        </h1>
 
         <section class="row">
            <div class="col-md-6 col-md-offset-3">
@@ -81,7 +93,7 @@
                            <?php endforeach ?>
 
 
-                       <a href="#" class="postBadge pull-right">Likes<span class="badge"><?php echo $totalLike ?></span></a>
+                       <a href="#" class="postBadge pull-right">Likes<span class="badge likeBadge">0</span></a>
 
                        <?php $totalComment = 0; ?>
                            <?php foreach($userPost['Comment'] as $comment): ?>

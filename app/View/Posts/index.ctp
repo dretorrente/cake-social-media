@@ -68,7 +68,7 @@
                 <?php endif ?>
 
             <?php endforeach ?>
-            <a href="#" class="postBadge pull-right">Likes<span class="badge likeSpan"><?php echo $countLike; ?></span></a>
+            <a href="#" class="postBadge pull-right">Likes<span class="badge likeBadge">0</span></a>
             <?php $totalComment = 0; ?>
             <?php foreach($post['Comment'] as $comment): ?>
                     <?php $totalComment += count($comment['comment']); ?>

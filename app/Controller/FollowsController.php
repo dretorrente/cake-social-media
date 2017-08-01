@@ -22,7 +22,8 @@ class FollowsController extends AppController
             $this->Follow->create();
             if ($this->Follow->save($this->request->data)) {
 //                $this->Flash->success(__('Your post has been saved.'));
-                return $this->redirect(array('controller' => 'posts','action' => 'index'));
+                // return $this->redirect(array('controller' => 'posts','action' => 'index'));
+                 return $this->redirect(array('controller' => 'posts','action' => 'index'));
             }
         }
     }

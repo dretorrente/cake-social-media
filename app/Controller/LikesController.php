@@ -26,7 +26,10 @@ class LikesController extends AppController
         $userid = $this->request->query['user_id'];
 
         $post = $this->Like->find('count', array(
-            'conditions' => array('Like.post_id' => $postID)));
+            'conditions' => array('Like.post_id' => $postID))); 
+
+
+
         if($post>0){
             $like = $this->Like->find('first', array(
                 'conditions' => array(
@@ -40,7 +43,13 @@ class LikesController extends AppController
                 $like['Like']['isLike'] = $like['Like']['isLike'] ? false : true;
                 $this->Like->save($like);
                 $respondLike = $like['Like']['isLike'];
-                echo $respondLike;
+                $likeCount = $this->Like->find('count', array(
+                    'conditions' => array(
+                        'Like.post_id' => $postID,
+                        'Like.isLike' => true,
+
+                        ))); 
+                echo json_encode(array("likeCount"=> $likeCount, "respondLike" => $respondLike));
             }
             else {
                 $this->request->data['user_id'] = $this->Auth->user('id'    );
@@ -49,7 +58,13 @@ class LikesController extends AppController
                 $this->Like->create();
                 $this->Like->save($this->request->data);
                 $respondLike = $this->request->data['isLike'] ;
-                echo $respondLike;
+                 $likeCount = $this->Like->find('count', array(
+                    'conditions' => array(
+                        'Like.post_id' => $postID,
+                        'Like.isLike' => true,
+
+                        ))); 
+               echo json_encode(array("likeCount"=> $likeCount, "respondLike" => $respondLike));
         }
 
 
@@ -60,7 +75,13 @@ class LikesController extends AppController
             $this->Like->create();
             $this->Like->save($this->request->data);
             $respondLike = $this->request->data['isLike'] ;
-            echo $respondLike;
+            $likeCount = $this->Like->find('count', array(
+                    'conditions' => array(
+                        'Like.post_id' => $postID,
+                        'Like.isLike' => true,
+
+                        ))); 
+               echo json_encode(array("likeCount"=> $likeCount, "respondLike" => $respondLike));
         }
 
 

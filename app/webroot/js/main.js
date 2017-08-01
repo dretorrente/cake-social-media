@@ -16,29 +16,59 @@ $(document).ready(function() {
         userId = $(this).parent().attr("user_id");
         postId =  $(this).parent().attr("post_id");
         $this = $(this);
-        $.ajax({
+        $.ajax({    
             method: 'GET',
             url: '/likes/isLike',
             data:{
                 user_id:userId,
                 post_id:postId
             }
+
         }).done(function(res){
             if(res)
             {
-                $this.html('Liked |');
-                $this.children('.like').html("Like |");
+
+                $data = JSON.parse(res);
+                var totalLike = $data.likeCount;
+                var likeSpan = $('.likeBadge').html();
+                var parseSpan = parseInt(likeSpan)
+                if($data.respondLike)
+                {
+                    // console.log(totalLike);
+                    
+                    // console.log(parseSpan+1);
+                    $('.likeBadge').html(parseSpan+1); 
+                    $this.html('Liked |');
+                }
+               else{
+                    // console.log(totalLike);
+
+                   $('.likeBadge').html(parseSpan-1); 
+                    $this.html('Like |');
+                 }
+                
 
             }
-            else
-            {
-                $this.html('Like |');
-
-            }
+            
 
 
         });
     });
+
+    // $('.followBut').on('click', function (event) {
+    //     event.preventDefault();
+    //      $.ajax({    
+    //         method: 'GET',
+    //         url: '/follows/addFollow'
+    //     }).done(function(res){
+    //         if(res)
+    //         {
+    //             console.log(res); 
+    //         }
+                
+    //         });
+    //     });
+
 
 
     // function showAllPosts(){
