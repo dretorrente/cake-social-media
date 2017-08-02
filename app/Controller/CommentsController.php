@@ -25,4 +25,49 @@ class CommentsController extends AppController
 
         }
     }
+
+    public function edit($id = null) {
+        $this->layout = 'layoutUI';
+        if (!$id) {
+            throw new NotFoundException(__('Invalid post'));
+        }
+
+        $comment = $this->Comment->findById($id);
+        if (!$comment) {
+            throw new NotFoundException(__('Invalid post'));
+        }
+
+        if ($this->request->is(array('post', 'put'))) {
+            $this->Comment->id = $id;
+            if ($this->Comment->save($this->request->data)) {
+                $this->layout = 'layoutUI';
+                $this->Flash->success(__('Your post has been updated.'));
+                return $this->redirect(array('action' => 'index'));
+            }
+            $this->Flash->error(__('Unable to update your post.'));
+        }
+
+        if (!$this->request->data) {
+            $this->request->data = $comment;
+        }
+    }
+
+    public function delete($id)
+    {
+        if ($this->request->is('get')) {
+            throw new MethodNotAllowedException();
+        }
+        if ($this->Comment->delete($id)) {
+            $this->Flash->success(
+                __('The comment has been deleted.')
+            );
+        } else {
+            $this->Flash->error(
+                __('The comment with id: %s could not be deleted.', h($id))
+            );
+        }
+        return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+    }
+
+
 }

@@ -34,6 +34,7 @@
 
     Router::connect('/dashboard', array('controller' => 'posts', 'action' => 'index'));
     Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
+    Router::connect('/register', array('controller' => 'users', 'action' => 'register'));
     Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
 
     Router::connect('/', array('controller' => 'users', 'action' => 'login'));

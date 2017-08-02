@@ -73,6 +73,18 @@
                         </div>
                         <div class="col-md-10">
                             <p><?php echo __($comment['comment']); ?> </p>
+                            <?php
+                                echo __($this->Html->link(
+                                    'Edit |', array('controller' => 'comments', 'action' => 'edit', $comment['id'])
+                                    ));
+                            ?>
+                            <?php
+                                echo __($this->Form->postLink(
+                                    'Delete ',
+                                    array('controller' => 'comments', 'action' => 'delete', $comment['id']),
+                                    array('confirm' => 'Are you sure?')
+                                    ));
+                            ?>
                         </div>
                     </div>
                     <?php endforeach ?>

@@ -12,15 +12,17 @@ class LikesController extends AppController
     public $uses = array('Post', 'Comment', 'User','Follow', 'Like');
     public $helpers = array('Html', 'Form');
 
+
     public function isLike()
     {
+
         $this->layout = 'layoutUI';
         $this->autoRender = false;
         $postID = $this->request->query("post_id");
         $userid = $this->request->query['user_id'];
 
         $post = $this->Like->find('count', array(
-            'conditions' => array('Like.post_id' => $postID))); 
+            'conditions' => array('Like.post_id' => $postID)));
 
         if($post>0){
             $like = $this->Like->find('first', array(
@@ -40,7 +42,7 @@ class LikesController extends AppController
                         'Like.post_id' => $postID,
                         'Like.isLike' => true,
 
-                        ))); 
+                        )));
                 echo json_encode(array("likeCount"=> $likeCount, "respondLike" => $respondLike));
             }
             else {
@@ -55,9 +57,9 @@ class LikesController extends AppController
                         'Like.post_id' => $postID,
                         'Like.isLike' => true,
 
-                        ))); 
+                        )));
                echo json_encode(array("likeCount"=> $likeCount, "respondLike" => $respondLike));
-            }
+        }
 
         }else{
             $this->request->data['user_id'] = $this->Auth->user('id');
@@ -71,7 +73,7 @@ class LikesController extends AppController
                         'Like.post_id' => $postID,
                         'Like.isLike' => true,
 
-                        ))); 
+                        )));
                echo json_encode(array("likeCount"=> $likeCount, "respondLike" => $respondLike));
         }
     }

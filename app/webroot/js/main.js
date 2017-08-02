@@ -34,16 +34,14 @@ $(document).ready(function() {
                 var parseSpan = parseInt(likeSpan)
                 if($data.respondLike)
                 {
-                    $('.likeBadge').html(parseSpan+1); 
+                   $this.parent().find('.likeBadge').html(parseSpan+1);
                     $this.html('Liked |');
                 }
                else{
 
-                   $('.likeBadge').html(parseSpan-1); 
+                    $this.parent().find('.likeBadge').html(parseSpan-1);
                     $this.html('Like |');
                  }
-                
-
             }
             
 

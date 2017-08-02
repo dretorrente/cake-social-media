@@ -21,18 +21,6 @@ class PostsController extends AppController
         $this->set('posts', $query);
     }
 
-    public function view($id = null) {
-        $this->layout = 'layoutUI';
-        if (!$id) {
-            throw new NotFoundException(__('Invalid post'));
-        }
-
-        $post = $this->Post->findById($id);
-        if (!$post) {
-            throw new NotFoundException(__('Invalid post'));
-        }
-    }
-
     public function add() {
         $this->layout = 'layoutUI';
         if ($this->request->is('post')) {

@@ -25,9 +25,9 @@
                     <li><a href="/profile/<?php echo h($this->Session->read('Auth.User.username')); ?>">Profile</a></li>
                     <li><a href="/logout">Logout</a></li>
                 <?php else: ?>
-                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="/dashboard">Home</a></li>
                     <li> <?php echo __($this->Html->link( "Login",   array('action'=>'login'))); ?></li>
-                <li> <?php echo __($this->Html->link( "Signup",   array('action'=>'add'))); ?></li>
+                    <li><a href="/register">Register</a></li>
                 <?php endif; ?>
             </ul>
         </div>
