@@ -10,6 +10,7 @@ class FollowsController extends AppController
 {
     public $uses = array('Post', 'Comment', 'User','Follow', 'Like');
     public $helpers = array('Html', 'Form');
+    // function to follow a user
     public function addFollow()
     {
         $this->autoRender = false;

@@ -59,7 +59,6 @@ $(document).ready(function() {
         }).done(function(res){
             if(res)
             {
-
                 $data = JSON.parse(res);
                 var likeSpan = $('.likeBadge').html();
                 var parseSpan = parseInt(likeSpan)
@@ -69,7 +68,6 @@ $(document).ready(function() {
                     $this.html('Liked |');
                 }
                else{
-
                     $this.parent().find('.likeBadge').html(parseSpan-1);
                     $this.html('Like |');
                  }

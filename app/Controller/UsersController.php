@@ -12,12 +12,12 @@ class UsersController extends AppController
     public $uses = array('Post', 'Comment', 'User','Follow','Like');
     public $helpers = array('Html', 'Form');
 
+    // override the beforeFilter allowing to add and login user
     public function beforeFilter() {
         parent::beforeFilter();
-        // override the beforeFilter allowing to add and login user
         $this->Auth->allow('login','register');
     }
-
+    // function to login existing user
     public function login() {
     $this->layout = 'layoutUI';
     //if already logged-in, redirect
@@ -33,15 +33,15 @@ class UsersController extends AppController
             }
         }
     }
-
+    // function to logout a user
     public function logout() {
         $this->redirect($this->Auth->logout());
     }
-
-
+    // function to register a new user
     public function register() {
         $this->layout = 'layoutUI';
         if ($this->request->is('post')) {
+            //uploading image in the root document source image
             if (!empty($this->request->data['User']['upload']['name']))
             {
                 $file = $this->request->data['User']['upload'];
@@ -50,6 +50,7 @@ class UsersController extends AppController
 
                 foreach($arr_ext as $arr)
                 {
+                    // renaming the filename path to be uploaded in the database
                     if($arr == $ext)
                     {
                         $filetmp= 'img/' . $file['name'];
@@ -59,6 +60,7 @@ class UsersController extends AppController
                     }
                 }
             }
+            // create new user
             $this->User->create();
             if ($this->User->save($this->request->data)) {
                 $this->Session->setFlash(__('The user has been created'));
@@ -68,7 +70,7 @@ class UsersController extends AppController
             }
         }
     }
-
+    // function for profile view of each user
     public function profile() {
         $this->layout = 'layoutUI';
         $username = $this->request->params['username'];

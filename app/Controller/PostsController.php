@@ -11,6 +11,7 @@ class PostsController extends AppController
     public $uses = array('Post', 'Comment', 'User', 'Follow', 'Like');
     public $helpers = array('Html', 'Form');
 
+    //view for the dashboard renamed in routes index.ctp
     public function index() {
         $this->layout = 'layoutUI';
 
@@ -20,7 +21,7 @@ class PostsController extends AppController
         ));
         $this->set('posts', $query);
     }
-
+    //add new post
     public function add() {
         $this->layout = 'layoutUI';
         if ($this->request->is('post')) {
@@ -33,18 +34,16 @@ class PostsController extends AppController
             $this->Flash->error(__('Unable to add your post.'));
         }
     }
-
+    //edit existing post
     public function edit($id = null) {
         $this->layout = 'layoutUI';
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
         }
-
         $post = $this->Post->findById($id);
         if (!$post) {
             throw new NotFoundException(__('Invalid post'));
         }
-
         if ($this->request->is(array('post', 'put'))) {
             $this->Post->id = $id;
             if ($this->Post->save($this->request->data)) {
@@ -54,12 +53,11 @@ class PostsController extends AppController
             }
             $this->Flash->error(__('Unable to update your post.'));
         }
-
         if (!$this->request->data) {
             $this->request->data = $post;
         }
     }
-
+    //delete existing post
     public function delete($id) {
         if ($this->request->is('get')) {
             throw new MethodNotAllowedException();

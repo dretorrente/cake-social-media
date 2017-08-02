@@ -8,8 +8,12 @@
  */
 class CommentsController extends AppController
 {
+
     public $uses = array('Post', 'Comment', 'User', 'Follow', 'Like');
+
     public $helpers = array('Html', 'Form');
+
+    /* use to save the data to Comment model */
     public function addComment($id)
     {
         $this->autoRender = false;
@@ -17,7 +21,9 @@ class CommentsController extends AppController
         $userID = $this->Auth->user('id');
         $this->request->data['user_id'] = $userID;
         $this->request->data['post_id'] = $postID;
+        //create new comment
         $this->Comment->create();
+        //saving new omment
         if ($this->Comment->save($this->request->data)) {
             $comments = $this->Comment->find('all', array(
                 'conditions' => array(
@@ -29,7 +35,7 @@ class CommentsController extends AppController
         }
         $this->Session->setFlash(__('Unable to add your post.'));
     }
-
+    /* function to edit the save data in Comment Model in edit.ctp View*/
     public function edit($id = null) {
         $this->layout = 'layoutUI';
         if (!$id) {
@@ -55,14 +61,9 @@ class CommentsController extends AppController
             $this->request->data = $comment;
         }
     }
-
+    /* function to delete Comment */
     public function delete($id)
     {
-//        if ($this->request->is('get')) {
-//            throw new MethodNotAllowedException();
-//        }
-//        pr($id);
-//        die();
         if ($this->Comment->delete($id)) {
             $this->Flash->success(
                 __('The comment has been deleted.')

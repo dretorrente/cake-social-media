@@ -32,6 +32,7 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller
 {
+    //components that will be used and inherit by the controllers
 	public $components = array(
 		'DebugKit.Toolbar',
         'Flash',
@@ -43,8 +44,8 @@ class AppController extends Controller
             'loginError' => 'Invalid Username or Password entered, please try again.'
         )
 	);
-
+    //to allow only user not to view the dashboard
     public function beforeFilter() {
-        $this->Auth->allow('login'); //to allow only user not to view the dashboard
+        $this->Auth->allow('login');
     }
 }

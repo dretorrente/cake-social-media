@@ -12,10 +12,9 @@ class LikesController extends AppController
     public $uses = array('Post', 'Comment', 'User','Follow', 'Like');
     public $helpers = array('Html', 'Form');
 
-
+    //this function check whether a the user already like the post or not and creating new Like
     public function isLike()
     {
-
         $this->layout = 'layoutUI';
         $this->autoRender = false;
         $postID = $this->request->query("post_id");
@@ -23,7 +22,7 @@ class LikesController extends AppController
 
         $post = $this->Like->find('count', array(
             'conditions' => array('Like.post_id' => $postID)));
-
+        // if theres a post to like
         if($post>0){
             $like = $this->Like->find('first', array(
                 'conditions' => array(
@@ -32,8 +31,10 @@ class LikesController extends AppController
                 ),
                 'recursive' => 1
             ));
+            // if there's a like corresponding to user_id and post_id
             if($like)
             {
+                //check the value of isLike
                 $like['Like']['isLike'] = $like['Like']['isLike'] ? false : true;
                 $this->Like->save($like);
                 $respondLike = $like['Like']['isLike'];
@@ -46,6 +47,7 @@ class LikesController extends AppController
                 echo json_encode(array("likeCount"=> $likeCount, "respondLike" => $respondLike));
             }
             else {
+                //if there's is no like corresponding to user_id and post_id, new Like will be created
                 $this->request->data['user_id'] = $this->Auth->user('id'    );
                 $this->request->data['isLike'] = true;
                 $this->request->data['post_id'] = $postID;
@@ -62,6 +64,7 @@ class LikesController extends AppController
         }
 
         }else{
+            //if there's no like corresponding to user_id and post_id, new Like will be created
             $this->request->data['user_id'] = $this->Auth->user('id');
             $this->request->data['isLike'] = true;
             $this->request->data['post_id'] = $postID;
