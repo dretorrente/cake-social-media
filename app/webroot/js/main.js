@@ -35,10 +35,6 @@ $(document).ready(function() {
                                         '<a href="/comments/delete/'+data[i].Comment.id+'">Delete</a>'+
                                      '</div>'+
                             '</div>';
-
-                    //
-                    // // console.log($(this));
-
                 }
                 $this.parent().parent().find('#commentSection').html(html);
 
