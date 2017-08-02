@@ -71,12 +71,10 @@
                         ?>
 
                         <a href="#" class="postBadge pull-right">Likes<span class="badge likeBadge">0</span></a>
-
                         <?php $totalComment = 0; ?>
                         <?php foreach($post['Comment'] as $comment): ?>
                         <?php $totalComment += count($comment['comment']); ?>
                         <?php endforeach ?>
-
                         <a href="#" class="postBadge pull-right">Comments<span class="badge"><?php echo __($totalComment); ?></span></a>
                         <div id="form-comment">
                             <div id="commentSection">

@@ -92,7 +92,7 @@ class User extends AppModel {
             )
         ),
 	);
-
+    // for checking confirm password to password input
     public function equaltofield($check,$otherfield)
     {
         //get name of field
@@ -103,7 +103,7 @@ class User extends AppModel {
         }
         return $this->data[$this->name][$otherfield] === $this->data[$this->name][$fname];
     }
-
+    // for checking a username if exist in database
     function isUniqueUsername($check) {
 
         $username = $this->find(
@@ -135,6 +135,7 @@ class User extends AppModel {
      * @param array $options
      * @return boolean
      */
+    // for checking a email if exist in database
     function isUniqueEmail($check) {
 
         $email = $this->find(
@@ -160,6 +161,7 @@ class User extends AppModel {
         }
     }
 
+    // hashing password before saving it
     public function beforeSave($options = array()) {
         // hash our password
         if (isset($this->data[$this->alias]['password'])) {
