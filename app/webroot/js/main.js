@@ -9,6 +9,42 @@ $(document).ready(function() {
 
         });
 
+        $(this).find('.commentSubmit').on('click', function(event) {
+            event.preventDefault();
+            var commentPostID = $(this).parent().find('.hiddenPost').val();
+            var comment = $(this).parent().find('#comment').val();
+            var $this = $(this);
+            $.ajax({
+                method: 'POST',
+                url: "/comments/addComment/"+commentPostID,
+                data: {comment: comment}
+            }).done(function(res){
+                var data = JSON.parse(res);
+                var html = '';
+
+                for(var i =0; i<data.length; i++)
+                {
+
+                    html += '<div class="row imageCol">'+
+                                     '<div class="col-md-1 ">'+
+                                        '<img src="/'+data[i].User.upload+'" alt="sample profile pic" class="imageComment">'+
+                                     "</div>"+
+                                     '<div class="col-md-10">'+
+                                        "<p>"+data[i].Comment.comment+"</p>"+
+                                        '<a href="/comments/edit/'+data[i].Comment.id+'">Edit | </a>'+
+                                        '<a href="/comments/delete/'+data[i].Comment.id+'">Delete</a>'+
+                                     '</div>'+
+                            '</div>';
+
+                    //
+                    // // console.log($(this));
+
+                }
+                $this.parent().parent().find('#commentSection').html(html);
+
+            });
+        });
+
     });
     $('.like').on('click', function(event) {
         event.preventDefault();
@@ -29,7 +65,6 @@ $(document).ready(function() {
             {
 
                 $data = JSON.parse(res);
-                var totalLike = $data.likeCount;
                 var likeSpan = $('.likeBadge').html();
                 var parseSpan = parseInt(likeSpan)
                 if($data.respondLike)
@@ -43,9 +78,8 @@ $(document).ready(function() {
                     $this.html('Like |');
                  }
             }
-            
-
-
         });
     });
+
+
 });

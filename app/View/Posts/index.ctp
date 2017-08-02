@@ -66,35 +66,36 @@
 
                 <a href="#" class="postBadge pull-right">Comments<span class="badge"><?php echo __($totalComment); ?></span></a>
                 <div id="form-comment">
-                    <?php foreach($post['Comment'] as $comment): ?>
-                    <div class="row imageCol">
-                        <div class="col-md-1 ">
-                            <img src="<?php echo h($comment['User']['upload']);?>" alt="sample profile pic" class="imageComment"  >
-                        </div>
-                        <div class="col-md-10">
-                            <p><?php echo __($comment['comment']); ?> </p>
-                            <?php
+                    <div id="commentSection">
+                        <?php foreach($post['Comment'] as $comment): ?>
+                        <div class="row imageCol">
+                            <div class="col-md-1 ">
+                                <img src="<?php echo h($comment['User']['upload']);?>" alt="sample profile pic" class="imageComment"  >
+                            </div>
+                            <div class="col-md-10">
+                                <p><?php echo __($comment['comment']); ?> </p>
+                                <?php
                                 echo __($this->Html->link(
-                                    'Edit |', array('controller' => 'comments', 'action' => 'edit', $comment['id'])
-                                    ));
-                            ?>
-                            <?php
+                                'Edit |', array('controller' => 'comments', 'action' => 'edit', $comment['id'])
+                                ));
+                                ?>
+                                <?php
                                 echo __($this->Form->postLink(
-                                    'Delete ',
-                                    array('controller' => 'comments', 'action' => 'delete', $comment['id']),
-                                    array('confirm' => 'Are you sure?')
-                                    ));
-                            ?>
+                                'Delete ',
+                                array('controller' => 'comments', 'action' => 'delete', $comment['id']),
+                                array('confirm' => 'Are you sure?')
+                                ));
+                                ?>
+                            </div>
                         </div>
+                        <?php endforeach ?>
                     </div>
-                    <?php endforeach ?>
-
-                    <form action="addComment/<?php echo h($post['Post']['id']); ?>" method="post" >
+                    <form action="" method="post" >
                         <div class="form-group">
                             <textarea class="form-control commentBox" name="comment" id="comment" rows="2" placeholder="Type your comment here.."></textarea>
                         </div>
-                        <?php echo __($this->Form->input('id', array('type' => 'hidden', 'class' => 'form-control')));  ?>
-                        <button type="submit" class="btn btn-default">Comment</button>
+                        <?php echo __($this->Form->input('id', array('type' => 'hidden', 'value' => $post['Post']['id'], 'class' => 'form-control hiddenPost')));  ?>
+                        <button type="submit" class="btn btn-default commentSubmit">Comment</button>
                     </form>
                 </div>
             </div>

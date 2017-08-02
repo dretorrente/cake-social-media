@@ -79,6 +79,7 @@
 
                         <a href="#" class="postBadge pull-right">Comments<span class="badge"><?php echo __($totalComment); ?></span></a>
                         <div id="form-comment">
+                            <div id="commentSection">
                             <?php foreach($post['Comment'] as $comment): ?>
                             <div class="row imageCol">
                                 <div class="col-md-1 ">
@@ -89,13 +90,13 @@
                                 </div>
                             </div>
                             <?php endforeach ?>
-
-                            <form action="/addComment/<?php echo h($post['id']); ?>" method="post" >
+                            </div>
+                            <form action="" method="post" >
                                 <div class="form-group">
                                     <textarea class="form-control commentBox" name="comment" id="comment" rows="2" placeholder="Type your comment here.."></textarea>
                                 </div>
-                                <?php echo __($this->Form->input('id', array('type' => 'hidden', 'class' => 'form-control')));  ?>
-                                <button type="submit" class="btn btn-default">Comment</button>
+                                <?php echo __($this->Form->input('id', array('type' => 'hidden', 'value' => $post['id'], 'class' => 'form-control hiddenPost')));  ?>
+                                <button type="submit" class="btn btn-default commentSubmit">Comment</button>
                             </form>
                         </div>
                     </div>
