@@ -13,35 +13,53 @@ class UsersController extends AppController
     public $helpers = array('Html', 'Form');
     public function beforeFilter() {
         parent::beforeFilter();
+        // override the beforeFilter allowing to add and login user
         $this->Auth->allow('login','add');
-
-        
     }
     public function profile() {
         $this->layout = 'layoutUI';
         $username = $this->request->params['username'];
-        $id = $this->Auth->user('id');
-//        $query = $this->User->find('all');
         $query = $this->User->find('first', array(
             'conditions'=> array(
                 'User.username' => $username,
             ),
             'recursive' => 3)
         );
-        $this->set('user', $query);
+
+        $this->set('posts', $query['Post']);
+//        if($query)
+//        {
+//            $posts = $this->Post->find('all', array(
+//                    'conditions'=> array(
+//                        'User.username' => $username,
+//                    ),
+//                    'recursive' => 1)
+//            );
+//
+//            foreach($posts as $post)
+//            {
+//                if($post['User']['username'] == $username)
+//                {
+//                    $this->set('post', $post);
+//                }
+//            }
+//        }
+
+    }
+
+    public function getProfile()
+    {
+
     }
     public function login() {
-
     $this->layout = 'layoutUI';
     //if already logged-in, redirect
         if($this->Session->check('Auth.User')){
             $this->redirect(array('action' => 'index'));
         }
-
         // if we get the post information, try to authenticate
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
-                $this->Session->setFlash(__('Welcome, '. $this->Auth->user('username')));
                 $this->redirect($this->Auth->redirectUrl());
             } else {
                 $this->Session->setFlash(__('Invalid username or password'));
@@ -63,17 +81,13 @@ class UsersController extends AppController
         $this->set(compact('users'));
     }
 
-
     public function add() {
         $this->layout = 'layoutUI';
         if ($this->request->is('post')) {
             if (!empty($this->request->data['User']['upload']['name']))
             {
                 $file = $this->request->data['User']['upload'];
-//                pr($file);
                 $ext = substr(strtolower(strrchr($file['name'], '.')), 1);
-//                echo $ext;
-
                 $arr_ext = array('jpg', 'jpeg', 'gif', 'png');
 
                 foreach($arr_ext as $arr)
@@ -81,18 +95,12 @@ class UsersController extends AppController
                     if($arr == $ext)
                     {
                         $filetmp= 'img/' . $file['name'];
-//                        echo $filenew;
-//                        move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/' . $file['name']);
-//                        $this->request->data['upload'] = $filenew;
-                          $upload = $this->request->data['User']['upload'];
                         $this->request->data['User']['upload']['name'] = $filetmp;
                         $filenew =  $this->request->data['User']['upload']['name'];
                         $this->request->data['User']['upload'] = $filenew;
-//
                     }
                 }
             }
-//
             $this->User->create();
             if ($this->User->save($this->request->data)) {
                 $this->Session->setFlash(__('The user has been created'));

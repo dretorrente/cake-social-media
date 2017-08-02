@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body>
+<!-- Navigation Bar -->
 <nav class="navbar navbar-default">
     <div class="container">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -20,47 +21,24 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <?php if ($this->Session->read('Auth.User')): ?>
-                <!--<li><a href="#"><img src="<?php echo $this->Session->read('Auth.User.upload'); ?>" class="profile-mage"></a> </li>-->
                     <li class="active"><a href="/dashboard">Home</a></li>
-                    <li><a href="/profile/<?php echo $this->Session->read('Auth.User.username'); ?>">Profile</a></li>
+                    <li><a href="/profile/<?php echo h($this->Session->read('Auth.User.username')); ?>">Profile</a></li>
                     <li><a href="/logout">Logout</a></li>
-
-                    <!--<li class="dropdown">-->
-                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>-->
-                        <!--<ul class="dropdown-menu">-->
-                            <!--&lt;!&ndash;<?php if ($this->Session->read('Auth.User')): ?>&ndash;&gt;-->
-                                <!--<li><a href="admin">Profile</a></li>-->
-                                <!--<li><a href="logout">Logout</a></li>-->
-                            <!--&lt;!&ndash;<?php endif; ?>&ndash;&gt;-->
-                        <!--</ul>-->
-                    <!--</li>-->
                 <?php else: ?>
                     <li class="active"><a href="#">Home</a></li>
-                    <li> <?php echo $this->Html->link( "Login",   array('action'=>'login') ); ?></li>
-                <li> <?php echo $this->Html->link( "Signup",   array('action'=>'add') ); ?></li>
+                    <li> <?php echo __($this->Html->link( "Login",   array('action'=>'login'))); ?></li>
+                <li> <?php echo __($this->Html->link( "Signup",   array('action'=>'add'))); ?></li>
                 <?php endif; ?>
-
             </ul>
         </div>
     </div>
 </nav>
+<!-- Main container -->
 <div class="container clearfix">
     <?= $this->fetch('content') ?>
 </div>
-<!--<footer>-->
-    <!--<div class="container">-->
-        <!--<div class="navbar-text pull-left">-->
-            <!--<p>copyright Sample CakePHP 2017 </p>-->
-        <!--</div>-->
-        <!--<div class="navbar-text pull-right">-->
-            <!--<a href="#"><i class="fa fa-facebook fa-2x"></i></a>-->
-            <!--<a href="#"><i class="fa fa-twitter fa-2x"></i></a>-->
-            <!--<a href="#"><i class="fa fa-google-plus fa-2x"></i></a>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</footer>-->
 
-
+<!-- Jquery and Bootstrap js -->
 <script
         src="http://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="

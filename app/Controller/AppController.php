@@ -30,7 +30,8 @@ App::uses('Controller', 'Controller');
  * @package		app.Controller
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
+class AppController extends Controller
+{
 	public $components = array(
 		'DebugKit.Toolbar',
         'Flash',
@@ -40,22 +41,10 @@ class AppController extends Controller {
             'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
             'authError' => 'You must be logged in to view this page.',
             'loginError' => 'Invalid Username or Password entered, please try again.'
-
         )
 	);
 
     public function beforeFilter() {
-        $this->Auth->allow('login');
+        $this->Auth->allow('login'); //to allow only user not to view the dashboard
     }
-
-    public function isAuthorized($user) {
-        // Here is where we should verify the role and give access based on role
-
-        return true;
-    }
-	// if (Configure::read('debug')) {
- //            $this->components['DebugKit.Toolbar'] = array(
- //                'panels'
- //            );
- //    }
 }

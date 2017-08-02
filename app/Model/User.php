@@ -39,11 +39,6 @@ class User extends AppModel {
 		'username' => array(
 			'alphaNumeric' => array(
 				'rule' => array('alphaNumeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
             'between' => array(
                 'rule' => array('between', 5, 15),
@@ -52,17 +47,12 @@ class User extends AppModel {
             ),
 			'notBlank' => array(
 				'rule' => array('notBlank'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+
 			),
             'unique' => array(
                 'rule'    => array('isUniqueUsername'),
                 'message' => 'This username is already in use'
             ),
-
 		),
 		'password' => array(
             'required' => array(
@@ -84,11 +74,6 @@ class User extends AppModel {
 			'required' => array(
 				'rule' => array('email',true),
                 'message' => 'Please provide a valid email address.'
-                //'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
             'unique' => array(
                 'rule'    => array('isUniqueEmail'),
@@ -180,12 +165,7 @@ class User extends AppModel {
         if (isset($this->data[$this->alias]['password'])) {
             $this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
         }
-
         // if we get a new password, hash it
-//        if (isset($this->data[$this->alias]['password_update']) &amp;&amp; !empty($this->data[$this->alias]['password_update'])) {
-//            $this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password_update']);
-//        }
-
         // fallback to our parent
         return parent::beforeSave($options);
     }

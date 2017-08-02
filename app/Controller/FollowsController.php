@@ -17,12 +17,8 @@ class FollowsController extends AppController
         if ($this->request->is('post')) {
             $this->request->data['user_id'] = $this->Auth->user('id');
             $this->request->data['follow_id'] = $postID;
-//            echo pr( $this->request->data);
-//            die();
             $this->Follow->create();
             if ($this->Follow->save($this->request->data)) {
-//                $this->Flash->success(__('Your post has been saved.'));
-                // return $this->redirect(array('controller' => 'posts','action' => 'index'));
                  return $this->redirect(array('controller' => 'posts','action' => 'index'));
             }
         }
