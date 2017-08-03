@@ -80,7 +80,7 @@ class UsersController extends AppController
                 ),
                 'recursive' => 3)
         );
-        $this->set('posts', $query['Post']);
+        $this->set('user', $query);
     }
 
 }

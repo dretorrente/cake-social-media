@@ -37,6 +37,11 @@ class User extends AppModel {
 
 	public $validate = array(
 		'username' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'A username is required'
+
+            ),
 			'alphaNumeric' => array(
 				'rule' => array('alphaNumeric'),
 			),
@@ -45,10 +50,7 @@ class User extends AppModel {
                 'required' => true,
                 'message' => 'Usernames must be between 5 to 15 characters'
             ),
-			'notBlank' => array(
-				'rule' => array('notBlank'),
 
-			),
             'unique' => array(
                 'rule'    => array('isUniqueUsername'),
                 'message' => 'This username is already in use'
@@ -66,7 +68,8 @@ class User extends AppModel {
 		),
         'upload' => array(
             'required' => array(
-                'rule' => array('notBlank')
+                'rule' => array('notBlank'),
+                'message' => 'Please provide a your profile picture.'
             ),
 
         ),
@@ -120,11 +123,9 @@ class User extends AppModel {
         );
 
         if(!empty($username)){
-            if($this->data[$this->alias]['id'] == $username['User']['id']){
-                return true;
-            }else{
+
                 return false;
-            }
+
         }else{
             return true;
         }

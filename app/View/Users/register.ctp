@@ -1,6 +1,6 @@
 <div class="row register form">
     <div class="col-md-4 col-md-offset-4">
-        <?php echo __($this->Form->create('User', array('enctype' => 'multipart/form-data'))); ?>
+        <?php echo __($this->Form->create('User', ['novalidate'], array('enctype' => 'multipart/form-data'))); ?>
         <legend>Register</legend>
         <div class="form-group">
             <?php echo __($this->Form->input('email', array( 'class' => 'form-control', 'type' => 'email'))) ;  ?>

@@ -23,16 +23,30 @@ class PostsController extends AppController
     }
     //add new post
     public function add() {
-        $this->layout = 'layoutUI';
+        $this->autoRender = false;
         if ($this->request->is('post')) {
             $this->request->data['user_id'] = $this->Auth->user('id');
             $this->Post->create();
             if ($this->Post->save($this->request->data)) {
-                $this->Flash->success(__('Your post has been saved.'));
-                return $this->redirect(array('controller' => 'posts','action' => 'index'));
+                $msg['success'] = true;
+                $msg['type'] = 'add';
+                echo json_encode($msg);
             }
-            $this->Flash->error(__('Unable to add your post.'));
+            $msg['success'] = false;
         }
+    }
+    public function showAllPost(){
+        $this->autoRender = false;
+        $authID = $this->Auth->user('id');
+        $query = $this->Post->find('all', array(
+            'order' => 'Post.modified DESC',
+            'recursive' => 1
+        ));
+        $comments = $this->Comment->find('all', array(
+            'recursive' => 1
+        ));
+        echo json_encode(array("authID" => $authID, "query" => $query, "comments" => $comments));
+
     }
     //edit existing post
     public function edit($id = null) {
@@ -59,19 +73,13 @@ class PostsController extends AppController
     }
     //delete existing post
     public function delete($id) {
-        if ($this->request->is('get')) {
-            throw new MethodNotAllowedException();
-        }
+        $this->autoRender = false;
         if ($this->Post->delete($id)) {
-            $this->Flash->success(
-                __('The post has been deleted.')
-            );
+            $msg['success'] = true;
         } else {
-            $this->Flash->error(
-                __('The post with id: %s could not be deleted.', h($id))
-            );
+            $msg['success'] = false;
         }
-        return $this->redirect(array('action' => 'index'));
+        echo json_encode($msg);
     }
 
 }

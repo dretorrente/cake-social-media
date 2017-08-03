@@ -23,7 +23,7 @@ class CommentsController extends AppController
         $this->request->data['post_id'] = $postID;
         //create new comment
         $this->Comment->create();
-        //saving new omment
+        //saving new comment
         if ($this->Comment->save($this->request->data)) {
             $comments = $this->Comment->find('all', array(
                 'conditions' => array(
@@ -56,7 +56,6 @@ class CommentsController extends AppController
             }
             $this->Flash->error(__('Unable to update your post.'));
         }
-
         if (!$this->request->data) {
             $this->request->data = $comment;
         }
@@ -64,15 +63,13 @@ class CommentsController extends AppController
     /* function to delete Comment */
     public function delete($id)
     {
+        $this->autoRender = false;
+
         if ($this->Comment->delete($id)) {
-            $this->Flash->success(
-                __('The comment has been deleted.')
-            );
+            $msg['success'] = true;
         } else {
-            $this->Flash->error(
-                __('The comment with id: %s could not be deleted.', h($id))
-            );
+            $msg['success'] = false;
         }
-        return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+        echo json_encode($msg);
     }
 }

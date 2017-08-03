@@ -41,7 +41,7 @@
     Router::connect('/add', array('controller' => 'posts', 'action' => 'add'));
     Router::connect('/profile/:username', array('controller' => 'users', 'action' => 'profile'));
     Router::connect('/addComment/:id', array('controller' => 'comments', 'action' => 'addComment'));
-    Router::connect('/addFollow/:id', array('controller' => 'follows', 'action' => 'addFollow'));
+//    Router::connect('/addFollow/:id', array('controller' => 'follows', 'action' => 'addFollow'));
 
 
 /**
