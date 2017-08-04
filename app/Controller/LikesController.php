@@ -17,6 +17,7 @@ class LikesController extends AppController
     {
         $this->layout = 'layoutUI';
         $this->autoRender = false;
+        date_default_timezone_set('Asia/Manila');
         $postID = $this->request->query("post_id");
         $userid = $this->request->query['user_id'];
 

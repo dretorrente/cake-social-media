@@ -9,7 +9,7 @@
 class PostsController extends AppController
 {
     public $uses = array('Post', 'Comment', 'User', 'Follow', 'Like');
-    public $helpers = array('Html', 'Form');
+    public $helpers = array('Html', 'Form', 'Time');
 
     //view for the dashboard renamed in routes index.ctp
     public function index() {
@@ -23,16 +23,21 @@ class PostsController extends AppController
     }
     //add new post
     public function add() {
+
         $this->autoRender = false;
         if ($this->request->is('post')) {
+            date_default_timezone_set('Asia/Manila');
             $this->request->data['user_id'] = $this->Auth->user('id');
+            $userID =$this->request->data['user_id'];
             $this->Post->create();
             if ($this->Post->save($this->request->data)) {
-                $msg['success'] = true;
-                $msg['type'] = 'add';
-                echo json_encode($msg);
+                $query = $this->Post->find('all', array(
+                    'order' => 'Post.modified DESC',
+                    'recursive' => 2
+                ));
+                echo json_encode(array("userID" => $userID, "query" => $query));
             }
-            $msg['success'] = false;
+
         }
     }
     public function showAllPost(){
@@ -59,6 +64,7 @@ class PostsController extends AppController
             throw new NotFoundException(__('Invalid post'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            date_default_timezone_set('Asia/Manila');
             $this->Post->id = $id;
             if ($this->Post->save($this->request->data)) {
                 $this->layout = 'layoutUI';

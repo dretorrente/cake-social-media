@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Social Media Cake</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/custom.css">
 </head>
@@ -17,7 +17,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/dashboard">Sample CakePHP</a>
+        <a class="navbar-brand" href="/dashboard">Social Media Cake</a>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <?php if ($this->Session->read('Auth.User')): ?>

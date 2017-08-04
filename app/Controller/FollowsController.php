@@ -10,6 +10,7 @@ class FollowsController extends AppController
     {
         // API use only
         $this->autoRender = false;
+        date_default_timezone_set('Asia/Manila');
         //getting user_id in Auth user
         $this->request->data['user_id'] = $this->Auth->user('id');
         $userID =  $this->request->data['user_id'];

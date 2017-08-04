@@ -40,7 +40,7 @@
                                 <a href="/profile/<?php echo h($post['User']['username']); ?>"> <img src="/img/<?php echo h($post['User']['upload']);?>" alt="sample profile pic" class="postImage"></a>
                             </div>
                             <div class="col-md-6 userName">
-                                <?php echo __($post["User"]["username"])?>
+                                <h4><?php echo __($post["User"]["username"])?></h4>
                                 <p>Posted on  <?php echo __($post['created']); ?></p>
                             </div>
                         </div>
@@ -48,6 +48,7 @@
                     <p class="contentPost"><?php echo __($post['status']); ?></p>
                     <div class="interaction comment-interact" user_id="<?php echo h($this->Session->read('Auth.User.id')); ?>" post_id ="<?php echo h($post['id'])?>">
                         <a href="#" class="comment">Comment |</a>
+                        <!-- Condition for naming Like-->
                         <?php $userId =  $this->Session->read('Auth.User.id'); ?>
                         <?php $likeName = ''; ?>
                         <?php foreach($post['Like'] as $likePost): ?>
@@ -68,7 +69,14 @@
                         array('confirm' => 'Are you sure?')
                         ));
                         ?>
-                        <a href="#" class="postBadge pull-right">Likes<span class="badge likeBadge">0</span></a>
+                        <!-- Getting total Likes -->
+                        <?php $totalLike = 0; ?>
+                            <?php foreach($post['Like'] as $likePost): ?>
+                            <?php if($likePost['isLike'] == true): ?>
+                                <?php $totalLike++; ?>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                        <a href="#" class="postBadge pull-right">Likes<span class="badge likeBadge"><?php echo h($totalLike); ?></span></a>
                         <?php $totalComment = 0; ?>
                         <?php foreach($post['Comment'] as $comment): ?>
                         <?php $totalComment += count($comment['comment']); ?>
@@ -79,7 +87,7 @@
                                 <?php foreach($post['Comment'] as $comment): ?>
                                 <div class="row imageCol">
                                     <div class="col-md-1 ">
-                                        <img src="img/<?php echo h($comment['User']['upload']);?>" alt="sample profile pic" class="imageComment"  >
+                                        <img src="/img/<?php echo h($comment['User']['upload']);?>" alt="sample profile pic" class="imageComment"  >
                                     </div>
                                     <div class="col-md-8 col-md-offset-1">
                                         <p><?php echo __($comment['comment']); ?> </p>

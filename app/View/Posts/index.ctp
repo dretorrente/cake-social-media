@@ -13,13 +13,14 @@
             <div class="form-group">
                 <textarea class="form-control" name="status" id="status" rows="3" placeholder="What's on your mind.."></textarea>
             </div>
-            <button type="submit" class="btn btn-primary" id="btnAdd">Create Post</button>
+            <button type="button" class="btn btn-primary" id="btnAdd">Create Post</button>
         </form>
     </div>
 </section>
 
 <section class="row section2" >
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-3" id="showdata">
+
         <?php foreach ($posts as $post): ?>
         <article class="post">
             <div class="info postByUser">
@@ -28,8 +29,8 @@
                         <a href="/profile/<?php echo h($post['User']['username']); ?>"><img src="img/<?php echo h($post['User']['upload']);?>" alt="sample profile pic" class="postImage"></a>
                     </div>
                     <div class="col-md-6 userName">
-                        <?php echo __($post["User"]["username"]); ?>
-                        <p>Posted on  <?php echo __($post['Post']['created']); ?></p>
+                        <h4 ><?php echo __($post["User"]["username"]); ?></h4>
+                        <p>Posted on  <?php echo __($post['Post']['modified']); ?></p>
                     </div>
                 </div>
             </div>
@@ -75,7 +76,12 @@
                                 <img src="img/<?php echo h($comment['User']['upload']);?>" alt="sample profile pic" class="imageComment"  >
                             </div>
                             <div class="col-md-10">
-                                <p><?php echo __($comment['comment']); ?> </p>
+                                <?php echo __($comment["User"]["username"]); ?>
+                                <p>Commented on <?php echo __($post['Post']['modified']); ?></p>
+                                <div class="jumbotron" id="commentArea">
+                                    <p><?php echo __($comment['comment']); ?> </p>
+                                </div>
+
                                 <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-edit">Edit | </a>
                                 <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-delete">Delete</a>
                             </div>

@@ -19,15 +19,16 @@ class CommentsController extends AppController
         $this->autoRender = false;
         $postID = $id;
         $userID = $this->Auth->user('id');
+        date_default_timezone_set('Asia/Manila');
         $this->request->data['user_id'] = $userID;
         $this->request->data['post_id'] = $postID;
         //create new comment
         $this->Comment->create();
-        //saving new comment
         if ($this->Comment->save($this->request->data)) {
             $comments = $this->Comment->find('all', array(
                 'conditions' => array(
-                    'Comment.post_id' => $postID
+                    'Comment.post_id' => $postID,
+
                 ),
                 'recursive' => 1
             ));

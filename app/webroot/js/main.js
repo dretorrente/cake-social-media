@@ -2,9 +2,10 @@ $(document).ready(function() {
     var postId = 0;
     var userId = 0;
 
-    $('.comment-interact').each(function (i) {
-        $(this).find('.comment').on('click', function (event) {
+    $('#showdata').find('.comment-interact').each(function (i) {
+        $(this).on('click', '.comment', function (event) {
             event.preventDefault();
+            alert(1);
             $(this).parent().find("#form-comment").toggle().find('.commentBox').focus();
 
         });
@@ -21,16 +22,20 @@ $(document).ready(function() {
             }).done(function(res){
                 var data = JSON.parse(res);
                 var html = '';
+
                 var addComment = $('textarea[name=comment]');
                 for(var i =0; i<data.length; i++)
                 {
-
                     html += '<div class="row imageCol">'+
                                      '<div class="col-md-1 ">'+
-                                        '<img src="img/'+data[i].User.upload+'" alt="sample profile pic" class="imageComment">'+
+                                        '<img src="/img/'+data[i].User.upload+'" alt="sample profile pic" class="imageComment">'+
                                      "</div>"+
                                      '<div class="col-md-10">'+
+                                     data[i].User.username+
+                                     '<p>Commented on '+data[i].Comment.created+'</p>'+
+                                     ' <div class="jumbotron" id="commentArea">'+
                                         "<p>"+data[i].Comment.comment+"</p>"+
+                                     '</div>'+
                                         '<a href="javascript:;" data="'+data[i].Comment.id+'" class="comment-edit">Edit | </a>'+
                                         '<a href="javascript:;" data="'+data[i].Comment.id+'" class="comment-delete">Delete</a>'+
                                      '</div>'+
@@ -49,7 +54,7 @@ $(document).ready(function() {
         });
 
     });
-    $('.like').on('click', function(event) {
+    $('#showdata').on('click', '.like', function(event) {
         event.preventDefault();
         $(this).parent().find('.comment-interact');
         userId = $(this).parent().attr("user_id");
@@ -83,7 +88,6 @@ $(document).ready(function() {
     });
     //Add New
     $('#btnAdd').click(function(){
-
         var data = $('#createPost').serialize();
         //validate form
         var addPost = $('textarea[name=status]');
@@ -103,14 +107,48 @@ $(document).ready(function() {
                 data: data,
                 async: false,
                 dataType: 'json',
-                success: function(response){
-                    // // console.log(response);
-                    // // if(response.success){
-                    // //     showAllPost();
-                    //
-                    // }else{
-                    //     alert('Error');
-                    // }
+                success: function(data){
+                    addPost.val('');
+                    $('.alert-success').html('Post successfully created').fadeIn().delay(4000).fadeOut('slow');
+                    var html = '';
+                    var i;
+                    var authID = data.userID;
+                    for(i=0; i<data.query.length; i++){
+                        html += '<article class="post">'+
+                                    '<div class="info postByUser">'+
+                                         '<div class="row">'+
+                                             '<div class="col-md-2">'+
+                                                 '<a href="/profile/'+data.query[i].User.username+'"><img class="postImage" src="img/'+data.query[i].User.upload+'"></a>'+
+                                             '</div>'+
+                                          '<div class="col-md-6 col-md-offset-2 userName">'+
+                                             data.query[i].User.username+
+                                            '<p>'+"Posted on "+data.query[i].Post.created+'</p>'+
+                                          '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '<p class="contentPost">'+data.query[i].Post.status+'</p>'+
+                                    '<div class="interaction comment-interact" user_id="'+authID+'" post_id="'+data.query[i].Post.id+'">'+
+                                         '<a href="#" class="comment">Comment | </a>'+
+                                          '<a href="/likes/isLike/'+data.query[i].Post.id+'" class="like">Like | </a>'+
+                                          '<a href="/posts/edit/'+data.query[i].Post.id+'">Edit | </a>'+
+                                         '<a href="/posts/delete/'+data.query[i].Post.id+'" class="post-delete">Delete |</a>'+
+                                         '<a href="javascript:;" class="postBadge pull-right">Likes<span class="badge likeBadge">0</span></a>'+
+                                         '<a href="javascript:;" class="postBadge pull-right">Comments<span class="badge">0</span></a>'+
+                                         '<div id="form-comment">'+
+                                             '<div id="commentSection">'+
+                                             '</div>'+
+                                             '<form action="" method="post" >'+
+                                                 ' <div class="form-group">'+
+                                                      '<textarea class="form-control commentBox" name="comment" id="comment" rows="2" placeholder="Type your comment here.."></textarea>'+
+                                                '</div>'+
+                                                 '<input type="hidden" value="'+data.query[i].Post.id+'" class="form-control hiddenPost">'+
+                                                 '<button type="submit" class="btn btn-default commentSubmit">Comment</button>'+
+                                              '</form>'+
+                                        '</div>'+
+                                     '</div>'+
+                            '</article>';
+                    }
+                    $('#showdata').html(html);
                 },
                 error: function(){
                     alert('Could not add data');
@@ -119,58 +157,57 @@ $(document).ready(function() {
         }
     });
 
-    function showAllPost(){
-        var autID;
-        var postID;
-        $.ajax({
-            type: 'ajax',
-            url: '/posts/showAllPost',
-            data: {},
-            async: false,
-            dataType: 'json',
-            success: function(data){
-                var html = '';
-                var i;
-                var autID = data.authID;
-                for(i=0; i<data.query.length; i++){
-                    html += '<article class="post">'+
-                                '<div class="info postByUser">'+
-                                    '<div class="row">'+
-                                        '<div class="col-md-2">'+
-                                            '<a href="/profile/'+data.query[i].User.username+'"><img class="postImage" src="img/'+data.query[i].User.upload+'"></a>'+
-                                        '</div>'+
-                                        '<div class="col-md-6 col-md-offset-2 userName">'+
-                                            data.query[i].User.username+
-                                            '<p>'+"Posted on "+data.query[i].Post.created+'</p>'+
-                                        '</div>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<p class="contentPost">'+data.query[i].Post.status+'</p>'+
-                                '<div class="interaction comment-interact" user_id="'+autID+'" post_id="'+data.query[i].Post.id+'">'+
-                                        '<a href="#" class="comment">Comment | </a>'+
-                                        '<a href="/likes/isLike/'+data.query[i].Post.id+'" class="like">Like | </a>'+
-                                        '<a href="/posts/edit/'+data.query[i].Post.id+'">Edit | </a>'+
-                                        '<a href="/posts/delete/'+data.query[i].Post.id+'" class="post-delete">Delete |</a>'+
-                                        '<a href="javascript:;" class="postBadge pull-right">Likes<span class="badge likeBadge">0</span></a>'+
-                                        '<a href="javascript:;" class="postBadge pull-right">Comments<span class="badge">0</span></a>'+
-                                        '<div id="form-comment">'+
-                                            '<div id="commentSection">'+
-                                            '</div>'+
-                                            '<form action="" method="post" >'+
-                                                ' <div class="form-group">'+
-                                                    '<textarea class="form-control commentBox" name="comment" id="comment" rows="2" placeholder="Type your comment here.."></textarea>'+
-                                                 '</div>'+
-                                                '<input type="hidden" value="'+data.query[i].Post.id+'" class="form-control hiddenPost">'+
-                                                 '<button type="submit" class="btn btn-default commentSubmit">Comment</button>'+
-                                            '</form>'+
-                                        '</div>'+
-                                '</div>'+
-                             '</article>';
-                }
-                $('#showdata').html(html);
-            }
-        });
-    }
+    // function showAllPost(){
+    //     var autID;
+    //     var postID;
+    //     $.ajax({
+    //         type: 'ajax',
+    //         url: '/posts/showAllPost',
+    //         async: false,
+    //         dataType: 'json',
+    //         success: function(data){
+    //             var html = '';
+    //             var i;
+    //             var autID = data.authID;
+    //             for(i=0; i<data.query.length; i++){
+    //                 html += '<article class="post">'+
+    //                             '<div class="info postByUser">'+
+    //                                 '<div class="row">'+
+    //                                     '<div class="col-md-2">'+
+    //                                         '<a href="/profile/'+data.query[i].User.username+'"><img class="postImage" src="img/'+data.query[i].User.upload+'"></a>'+
+    //                                     '</div>'+
+    //                                     '<div class="col-md-6 col-md-offset-2 userName">'+
+    //                                         data.query[i].User.username+
+    //                                         '<p>'+"Posted on "+data.query[i].Post.created+'</p>'+
+    //                                     '</div>'+
+    //                                 '</div>'+
+    //                             '</div>'+
+    //                             '<p class="contentPost">'+data.query[i].Post.status+'</p>'+
+    //                             '<div class="interaction comment-interact" user_id="'+autID+'" post_id="'+data.query[i].Post.id+'">'+
+    //                                     '<a href="#" class="comment">Comment | </a>'+
+    //                                     '<a href="/likes/isLike/'+data.query[i].Post.id+'" class="like">Like | </a>'+
+    //                                     '<a href="/posts/edit/'+data.query[i].Post.id+'">Edit | </a>'+
+    //                                     '<a href="/posts/delete/'+data.query[i].Post.id+'" class="post-delete">Delete |</a>'+
+    //                                     '<a href="javascript:;" class="postBadge pull-right">Likes<span class="badge likeBadge">0</span></a>'+
+    //                                     '<a href="javascript:;" class="postBadge pull-right">Comments<span class="badge">0</span></a>'+
+    //                                     '<div id="form-comment">'+
+    //                                         '<div id="commentSection">'+
+    //                                         '</div>'+
+    //                                         '<form action="" method="post" >'+
+    //                                             ' <div class="form-group">'+
+    //                                                 '<textarea class="form-control commentBox" name="comment" id="comment" rows="2" placeholder="Type your comment here.."></textarea>'+
+    //                                              '</div>'+
+    //                                             '<input type="hidden" value="'+data.query[i].Post.id+'" class="form-control hiddenPost">'+
+    //                                              '<button type="submit" class="btn btn-default commentSubmit">Comment</button>'+
+    //                                         '</form>'+
+    //                                     '</div>'+
+    //                             '</div>'+
+    //                          '</article>';
+    //             }
+    //             $('#showdata').html(html);
+    //         }
+    //     });
+    // }
 
    //delete
     $('#commentSection').on('click', '.comment-delete', function(){
@@ -219,14 +256,13 @@ $(document).ready(function() {
                     if(response.success){
                         $('#deleteModal').modal('hide');
                         $('.alert-success').html('Post Deleted successfully').fadeIn().delay(4000).fadeOut('slow');
-                        var url = window.location.href;
-                        if (url.indexOf('?') > -1){
-                            url += '&param=1';
-                        }else{
-                            url += '?param=1';
-                        }
-                        window.location.href = url;
-                        showAllPost();
+                        // var url = window.location.href;
+                        // if (url.indexOf('?') > -1){
+                        //     url += '&param=1';
+                        // }else{
+                        //     url += '?param=1';
+                        // }
+                        // window.location.href = url;
                     }else{
                         alert('Error');
                     }

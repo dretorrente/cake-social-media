@@ -31,7 +31,7 @@ article.post {
     text-align: center;
     padding: 30px;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 25px;
 }
 .postBadge {
     margin-left: 5px;
@@ -85,4 +85,14 @@ footer p {
 .comment-profile
 {
     margin-left: 10px;
+}
+#commentArea {
+    padding-bottom: 0px !important;
+    padding-top: 0px !important;
+    text-align: center;
+
+}
+#commentArea p{
+   font-size: 18px;
+
 }
