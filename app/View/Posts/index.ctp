@@ -36,7 +36,7 @@
             </div>
             <p class="contentPost"><?php echo $post['Post']['status'] ?></p>
             <div class="interaction comment-interact" user_id="<?php echo h($this->Session->read('Auth.User.id')); ?>" post_id ="<?php echo h($post['Post']['id'])?>">
-                <a href="#" class="comment">Comment |</a>
+                <a href="#" class="commentTag">Comment |</a>
                 <?php $userId =  $this->Session->read('Auth.User.id'); ?>
                 <!-- Condition for naming Like-->
                 <?php $likeName = ''; ?>
@@ -77,11 +77,10 @@
                             </div>
                             <div class="col-md-10">
                                 <?php echo __($comment["User"]["username"]); ?>
-                                <p>Commented on <?php echo __($post['Post']['modified']); ?></p>
+                                <p>Commented on <?php echo __($comment['modified']); ?></p>
                                 <div class="jumbotron" id="commentArea">
                                     <p><?php echo __($comment['comment']); ?> </p>
                                 </div>
-
                                 <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-edit">Edit | </a>
                                 <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-delete">Delete</a>
                             </div>
@@ -101,21 +100,4 @@
         <?php endforeach; ?>
     </div>
 </section>
-<!-- end delete modal  -->
-<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Confirm Delete</h4>
-            </div>
-            <div class="modal-body">
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" id="btnDelete" class="btn btn-danger">Delete</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- end delete modal -->

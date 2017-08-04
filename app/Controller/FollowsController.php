@@ -6,7 +6,7 @@ class FollowsController extends AppController
     public $helpers = array('Html', 'Form');
 
     // function to to create and update followed user
-    public function addFollow()
+    public function addFollow($id)
     {
         // API use only
         $this->autoRender = false;
@@ -15,7 +15,8 @@ class FollowsController extends AppController
         $this->request->data['user_id'] = $this->Auth->user('id');
         $userID =  $this->request->data['user_id'];
         //getting follow_id in data send by ajax
-        $followID = $this->request->data['follow_id'];
+        $followID =$id;
+
         //find if there's an existing Follow record
         $follow = $this->Follow->find('first', array(
             'conditions' => array(
@@ -25,10 +26,11 @@ class FollowsController extends AppController
             'recursive' => 1
         ));
         // if there's a follow corresponding to user_id and follow_id
-        if($follow)
+        if(!empty($follow))
         {
             //check the value of isFollow
             $follow['Follow']['isFollow'] = $follow['Follow']['isFollow'] ? false : true;
+
             //update the database
             $this->Follow->save($follow);
             $respondFollow = $follow['Follow']['isFollow'];
@@ -38,7 +40,7 @@ class FollowsController extends AppController
                     'Follow.isFollow' => true,
 
                 )));
-            echo json_encode(array("followCount"=> $followCount, "$respondFollow" => $respondFollow));
+            echo json_encode(array("followCount"=> $followCount, "respondFollow" => $respondFollow));
         }
         else {
             //if there's no Follow corresponding to user_id and post_id, new follow will be created

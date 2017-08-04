@@ -23,7 +23,6 @@ class PostsController extends AppController
     }
     //add new post
     public function add() {
-
         $this->autoRender = false;
         if ($this->request->is('post')) {
             date_default_timezone_set('Asia/Manila');
@@ -37,7 +36,6 @@ class PostsController extends AppController
                 ));
                 echo json_encode(array("userID" => $userID, "query" => $query));
             }
-
         }
     }
     public function showAllPost(){
@@ -87,5 +85,4 @@ class PostsController extends AppController
         }
         echo json_encode($msg);
     }
-
 }

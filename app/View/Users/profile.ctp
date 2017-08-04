@@ -9,16 +9,23 @@
             <div class="col-md-8 col-md-offset-4">
                 <?php $totalFollow =0; ?>
                 <?php $userID = $this->Session->read('Auth.User.id'); ?>
+                <?php $followName = ''; ?>
                 <?php foreach($user['Follow'] as $userFollow): ?>
-                    <?php $totalFollow++; ?>
+                    <?php if($userFollow['isFollow'] == true && $userFollow['user_id'] == $user['User']['id']): ?>
+                        <?php $totalFollow++; ?>
+
+                    <?php endif ?>
                 <?php endforeach ?>
                 <a href="#" class="FollowerBadge">Following<span class="badge following-class"><?php echo h($totalFollow); ?></span></a>
                 <?php if($this->Session->read('Auth.User.id') != $user['User']['id'] ): ?>
-                <form action="" method="post" >
-                    <?php echo __($this->Form->input('id', array('type' => 'hidden', 'value' => $user['User']['id'], 'class' => 'form-control hiddenFollow')));  ?>
-                    <button type="submit" class="btn btn-info followButton" id="addFollow">Follow</button>
+                <form action="" method="post" id="followForm">
+                        <!--<?php $followName = ''; ?>-->
+                        <?php echo __($this->Form->input('id', array('type' => 'hidden', 'value' => $user['User']['id'], 'class' => 'form-control hiddenFollow')));  ?>
+
+                    <button type="submit" class="btn btn-info addFollow" id="addFollow">Follow</button>
                 </form>
                 <?php endif; ?>
+
             </div>
         </div>
     </div>
@@ -27,9 +34,10 @@
             <?php if($user['User']['id'] == $this->Session->read('Auth.User.id')): ?>
             Your Profile
             <?php else: ?>
-            <?php echo h($user['User']['username'] . "'s" . " Profile") ?>
+                 <?php echo h($user['User']['username'] . "'s" . " Profile") ?>
             <?php endif; ?>
         </h1>
+        <div class="alert alert-success" style="display: none;"></div>
         <section class="row">
             <div class="col-md-6 col-md-offset-3">
                 <?php foreach($user['Post'] as $post): ?>
@@ -47,7 +55,7 @@
                     </div>
                     <p class="contentPost"><?php echo __($post['status']); ?></p>
                     <div class="interaction comment-interact" user_id="<?php echo h($this->Session->read('Auth.User.id')); ?>" post_id ="<?php echo h($post['id'])?>">
-                        <a href="#" class="comment">Comment |</a>
+                        <a href="#" class="commentTag">Comment |</a>
                         <!-- Condition for naming Like-->
                         <?php $userId =  $this->Session->read('Auth.User.id'); ?>
                         <?php $likeName = ''; ?>
@@ -62,13 +70,7 @@
                         'Edit |', array('controller' => 'posts','action' => 'edit', $post['id'])
                         ));
                         ?>
-                        <?php
-                            echo __($this->Form->postLink(
-                        'Delete ',
-                        array('controller' => 'posts', 'action' => 'delete', $post['id']),
-                        array('confirm' => 'Are you sure?')
-                        ));
-                        ?>
+                        <a href="javascript:;" data="<?php echo $post['id']; ?>" class="post-delete">Delete</a>
                         <!-- Getting total Likes -->
                         <?php $totalLike = 0; ?>
                             <?php foreach($post['Like'] as $likePost): ?>
@@ -90,7 +92,12 @@
                                         <img src="/img/<?php echo h($comment['User']['upload']);?>" alt="sample profile pic" class="imageComment"  >
                                     </div>
                                     <div class="col-md-8 col-md-offset-1">
-                                        <p><?php echo __($comment['comment']); ?> </p>
+
+                                        <?php echo __($comment["User"]["username"]); ?>
+                                        <p>Commented on <?php echo __($comment['modified']); ?></p>
+                                        <div class="jumbotron" id="commentArea">
+                                            <p><?php echo __($comment['comment']); ?> </p>
+                                        </div>
                                         <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-edit">Edit | </a>
                                         <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-delete">Delete</a>
                                     </div>

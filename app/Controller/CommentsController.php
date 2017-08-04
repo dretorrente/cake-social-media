@@ -65,12 +65,13 @@ class CommentsController extends AppController
     public function delete($id)
     {
         $this->autoRender = false;
-
-        if ($this->Comment->delete($id)) {
-            $msg['success'] = true;
-        } else {
-            $msg['success'] = false;
+        if ($this->request->is('post')) {
+            if ($this->Comment->delete($id)) {
+                $msg['success'] = true;
+            } else {
+                $msg['success'] = false;
+            }
+            echo json_encode($msg);
         }
-        echo json_encode($msg);
     }
 }

@@ -152,11 +152,8 @@ class User extends AppModel {
         );
 
         if(!empty($email)){
-            if($this->data[$this->alias]['id'] == $email['User']['id']){
-                return true;
-            }else{
                 return false;
-            }
+
         }else{
             return true;
         }
