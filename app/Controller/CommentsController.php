@@ -10,10 +10,17 @@ class CommentsController extends AppController
 {
 
     public $uses = array('Post', 'Comment', 'User', 'Follow', 'Like');
-
     public $helpers = array('Html', 'Form');
 
-    /* use to save the data to Comment model */
+
+    /**
+     *this function used to save data in comment model
+     @param int $id will get the value of the post_id
+     * $userID int will store the auth user id
+     * $comments is a variable with object return data type
+     * a date default timezone is set to Asia/Manila for created and modified datetime
+     * return type json
+     */
     public function addComment($id)
     {
         $this->autoRender = false;
@@ -36,7 +43,10 @@ class CommentsController extends AppController
         }
         $this->Session->setFlash(__('Unable to add your post.'));
     }
-    /* function to edit the save data in Comment Model in edit.ctp View*/
+    /**
+     *this function used to edit data in comment model in the edit.ctp view
+      @param int $id will get the value of the comment id
+     */
     public function edit($id = null) {
         $this->layout = 'layoutUI';
         if (!$id) {
@@ -61,7 +71,12 @@ class CommentsController extends AppController
             $this->request->data = $comment;
         }
     }
-    /* function to delete Comment */
+    /**
+     *this function used to delete data in comment model
+     @param int $id will get the value of the comment id
+     * $msg is a variable with object return data type
+     * return type json
+     */
     public function delete($id)
     {
         $this->autoRender = false;

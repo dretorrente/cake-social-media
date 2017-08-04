@@ -12,6 +12,15 @@ class LikesController extends AppController
     public $uses = array('Post', 'Comment', 'User','Follow', 'Like');
     public $helpers = array('Html', 'Form');
 
+
+    /**
+     * this function used to add data in Like Model
+     * $userid will get
+     * a date default timezone is set to Asia/Manila for created and modified datetime
+     * $userID int will store the auth user id
+     * $respondFollow boolean will store the result value isFollow in the Follow Model
+     * return type json
+     */
     //this function check whether a the user already like the post or not and creating new Like
     public function isLike()
     {

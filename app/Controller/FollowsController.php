@@ -5,7 +5,15 @@ class FollowsController extends AppController
     public $uses = array('Post', 'Comment', 'User','Follow', 'Like');
     public $helpers = array('Html', 'Form');
 
-    // function to to create and update followed user
+    /**
+     * this function used to add data in Follow model
+     * @param int $id will get the value of the user id you want to follow
+     * $msg is a variable with object return data type
+     * a date default timezone is set to Asia/Manila for created and modified datetime
+     * $userID int will store the auth user id
+     * $respondFollow boolean will store the result value isFollow in the Follow Model
+     * return type json
+     */
     public function addFollow($id)
     {
         // API use only
@@ -15,13 +23,13 @@ class FollowsController extends AppController
         $this->request->data['user_id'] = $this->Auth->user('id');
         $userID =  $this->request->data['user_id'];
         //getting follow_id in data send by ajax
-        $followID =$id;
+
 
         //find if there's an existing Follow record
         $follow = $this->Follow->find('first', array(
             'conditions' => array(
                 'Follow.user_id' => $userID,
-                'Follow.follow_id' => $followID
+                'Follow.follow_id' => $id
             ),
             'recursive' => 1
         ));
@@ -46,7 +54,7 @@ class FollowsController extends AppController
             //if there's no Follow corresponding to user_id and post_id, new follow will be created
             $this->request->data['user_id'] = $userID;
             $this->request->data['isFollow'] = true;
-            $this->request->data['follow_id'] = $followID;
+            $this->request->data['follow_id'] = $id;
             $this->Follow->create();
             $this->Follow->save($this->request->data);
             $respondFollow = $this->request->data['isFollow'] ;
