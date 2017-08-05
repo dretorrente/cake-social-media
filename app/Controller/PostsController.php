@@ -13,13 +13,22 @@ class PostsController extends AppController
 
     //view for the dashboard renamed in routes index.ctp
     public function index() {
-        $this->layout = 'layoutUI';
+         $this->layout = 'layoutUI';
 
         $query = $this->Post->find('all', array(
-            'order' => 'Post.modified DESC',
-            'recursive' => 2
-        ));
+             'contain' => array(
+             'User',
+             'Like',
+             'Comment' => array('User',
+                 'order' => array('Comment.modified' => 'ASC')
+             )
+         ),
+         'order' => array('Post.modified' => 'DESC')
+        
+        )
+    );
         $this->set('posts', $query);
+
     }
     //add new post
     public function add() {
@@ -30,10 +39,12 @@ class PostsController extends AppController
             $userID =$this->request->data['user_id'];
             $this->Post->create();
             if ($this->Post->save($this->request->data)) {
-                $query = $this->Post->find('all', array(
-                    'order' => 'Post.modified DESC',
-                    'recursive' => 2
-                ));
+                $id = $this->Post->getLastInsertID();
+                $query = $this->Post->find('first', array(
+                'conditions' => array(
+                    'Post.id' => $id,
+                ),
+            ));
                 echo json_encode(array("userID" => $userID, "query" => $query));
             }
         }
@@ -77,12 +88,40 @@ class PostsController extends AppController
     }
     //delete existing post
     public function delete($id) {
+
         $this->autoRender = false;
+
+        $likes = $this->Post->find('first', array(
+            'conditions' => array(
+                    'id' => $id
+                ),
+                'contain' => array(
+                    'Like'
+                )
+        ));
+       $comments = $this->Post->find('first', array(
+            'conditions' => array(
+                    'id' => $id
+                ),
+                'contain' => array(
+                    'Comment'
+                )
+        ));
+        
         if ($this->Post->delete($id)) {
+            foreach($likes['Like'] as $like)
+            {
+                 $this->Like->delete($like['id']);
+             }
+             foreach($comments['Comment'] as $comment)
+            {
+                 $this->Comment->delete($comment['id']);
+             }
             $msg['success'] = true;
         } else {
             $msg['success'] = false;
         }
-        echo json_encode($msg);
+
+       echo json_encode($msg);
     }
 }

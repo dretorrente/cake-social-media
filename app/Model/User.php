@@ -5,6 +5,7 @@ App::uses('AppModel', 'Model');
  *
  */
 class User extends AppModel {
+    public $actsAs = array('Containable');
 
 /**
  * Validation rules
@@ -20,7 +21,8 @@ class User extends AppModel {
         ),
         'Comment' => array(
             'className' => 'Comment',
-            'foreignKey' => 'user_id'
+            'foreignKey' => 'user_id',
+            'dependent' => true
 
         ),
         'Follow' => array(

@@ -37,9 +37,10 @@
                  <?php echo h($user['User']['username'] . "'s" . " Profile") ?>
             <?php endif; ?>
         </h1>
-        <div class="alert alert-success" style="display: none;"></div>
+      
         <section class="row">
             <div class="col-md-6 col-md-offset-3">
+              <div class="alert alert-success" style="display: none;"></div>
                 <?php foreach($user['Post'] as $post): ?>
                 <article class="post">
                     <div class="info postByUser">

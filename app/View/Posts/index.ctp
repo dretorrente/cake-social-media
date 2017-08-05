@@ -47,12 +47,16 @@
                 <?php endforeach ?>
 
                 <a href="/likes/isLike/<?php echo h($post['Post']['id']); ?>" class="like"><?php if(empty($likeName)):?><?php echo __("Like |"); ?> <?php else: ?> <?php echo __($likeName ." |"); ?> <?php endif; ?> </a>
-                <?php
-                    echo __($this->Html->link(
-                'Edit |', array('action' => 'edit', $post['Post']['id'])
-                ));
-                ?>
-                <a href="javascript:;" data="<?php echo h($post['Post']['id']); ?>" class="post-delete">Delete</a>
+               
+                <?php if ($this->Session->read('Auth.User') && $post['Post']['user_id'] ==$this->Session->read('Auth.User.id')): ?>
+
+                    <?php
+                        echo __($this->Html->link(
+                    'Edit |', array('action' => 'edit', $post['Post']['id'])
+                    ));
+                    ?>
+                    <a href="javascript:;" data="<?php echo h($post['Post']['id']); ?>" class="post-delete">Delete |</a>
+                 <?php endif; ?>  
                 <!-- Getting total Likes -->
                 <?php $totalLike = 0; ?>
                 <?php foreach($post['Like'] as $isLike): ?>
@@ -81,8 +85,10 @@
                                 <div class="jumbotron" id="commentArea">
                                     <p><?php echo __($comment['comment']); ?> </p>
                                 </div>
-                                <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-edit">Edit | </a>
-                                <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-delete">Delete</a>
+                                <?php if ($this->Session->read('Auth.User') && $post['Post']['user_id'] ==$this->Session->read('Auth.User.id')): ?>
+                                    <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-edit">Edit | </a>
+                                    <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-delete">Delete</a>
+                                <?php endif; ?>  
                             </div>
                         </div>
                         <?php endforeach ?>

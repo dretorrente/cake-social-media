@@ -26,21 +26,25 @@ class CommentsController extends AppController
         $this->autoRender = false;
         $postID = $id;
         $userID = $this->Auth->user('id');
-        date_default_timezone_set('Asia/Manila');
-        $this->request->data['user_id'] = $userID;
-        $this->request->data['post_id'] = $postID;
-        //create new comment
-        $this->Comment->create();
-        if ($this->Comment->save($this->request->data)) {
-            $comments = $this->Comment->find('all', array(
-                'conditions' => array(
-                    'Comment.post_id' => $postID,
-
-                ),
-                'recursive' => 1
-            ));
-            return json_encode($comments);
-        }
+        
+            date_default_timezone_set('Asia/Manila');
+            $this->request->data['user_id'] = $userID;
+            $this->request->data['post_id'] = $postID;
+            //create new comment
+            $this->Comment->create();
+             if ($this->Comment->save($this->request->data)) {
+                    $commentID = $this->Comment->getLastInsertID();
+                    $query = $this->Comment->find('first', array(
+                    'conditions' => array(
+                        'Post.id' => $postID,
+                        'Comment.user_id' => $userID,
+                        'Comment.id' => $commentID,
+                    ),
+                ));
+                    echo json_encode($query);
+            }
+        
+        
         $this->Session->setFlash(__('Unable to add your post.'));
     }
     /**
@@ -65,7 +69,6 @@ class CommentsController extends AppController
                 $this->Flash->success(__('Your comment has been updated.'));
                 return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
             }
-            $this->Flash->error(__('Unable to update your post.'));
         }
         if (!$this->request->data) {
             $this->request->data = $comment;

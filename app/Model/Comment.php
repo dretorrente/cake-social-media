@@ -8,6 +8,7 @@
  */
 class Comment extends AppModel
 {
+    public $actsAs = array('Containable');
     public $belongsTo = array(
         'Post' => array(
             'className' => 'Post',

@@ -6,6 +6,7 @@ App::uses('AppModel', 'Model');
  * @property User $User
  */
 class Post extends AppModel {
+     public $actsAs = array('Containable');
 
 /**
  * Display field
@@ -39,7 +40,8 @@ class Post extends AppModel {
         ),
         'Comment' => array(
             'className' => 'Comment',
-            'foreignKey' => 'post_id'
+            'foreignKey' => 'post_id',
+            'dependent' => true
 
         )
     );

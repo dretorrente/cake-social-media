@@ -19,27 +19,26 @@ $(document).ready(function() {
             }).done(function(res){
                 var data = JSON.parse(res);
                 var html = '';
-
+                console.log(data);
                 var addComment = $('textarea[name=comment]');
-                for(var i =0; i<data.length; i++)
-                {
-                    html += '<div class="row imageCol">'+
-                                '<div class="col-md-1 ">'+
-                                '<img src="/img/'+data[i].User.upload+'" alt="sample profile pic" class="imageComment">'+
-                                "</div>"+
-                                '<div class="col-md-10">'+
-                                data[i].User.username+
-                                '<p>Commented on '+data[i].Comment.created+'</p>'+
-                                ' <div class="jumbotron" id="commentArea">'+
-                                        "<p>"+data[i].Comment.comment+"</p>"+
-                                '</div>'+
-                                '<a href="/comments/edit/'+data[i].Comment.id+'" class="comment-edit">Edit | </a>'+
-                                '<a href="javascript:;" data="'+data[i].Comment.id+'" class="comment-delete">Delete</a>'+
-                                '</div>'+
-                          '</div>';
-                }
+                
+                html += '<div class="row imageCol">'+
+                            '<div class="col-md-1 ">'+
+                            '<img src="/img/'+data.User.upload+'" alt="sample profile pic" class="imageComment">'+
+                            "</div>"+
+                            '<div class="col-md-10">'+
+                            data.User.username+
+                            '<p>Commented on '+data.Comment.created+'</p>'+
+                            ' <div class="jumbotron" id="commentArea">'+
+                                    "<p>"+data.Comment.comment+"</p>"+
+                            '</div>'+
+                            '<a href="/comments/edit/'+data.Comment.id+'" class="comment-edit">Edit | </a>'+
+                            '<a href="javascript:;" data="'+data.Comment.id+'" class="comment-delete">Delete</a>'+
+                            '</div>'+
+                      '</div>';
+            
                 addComment.val('');
-                $this.parent().parent().find('#commentSection').html(html);
+                $this.parent().parent().find('#commentSection').append(html);
                 var commentSpan = $this.parent().parent().parent().find('.commentBadge').html();
                 var parseComment = parseInt(commentSpan);
                 $this.parent().parent().parent().find('.commentBadge').html(parseComment+1);
@@ -105,25 +104,27 @@ $(document).ready(function() {
                     var html = '';
                     var i;
                     var authID = data.userID;
-                    for(i=0; i<data.query.length; i++){
-                        html += '<article class="post">'+
+                    console.log(data.query);
+                        html += 
+                             
+                                '<article class="post">'+
                                     '<div class="info postByUser">'+
                                          '<div class="row">'+
                                              '<div class="col-md-2">'+
-                                                 '<a href="/profile/'+data.query[i].User.username+'"><img class="postImage" src="img/'+data.query[i].User.upload+'"></a>'+
+                                                 '<a href="/profile/'+data.query.User.username+'"><img class="postImage" src="img/'+data.query.User.upload+'"></a>'+
                                              '</div>'+
                                           '<div class="col-md-6 col-md-offset-2 userName">'+
-                                             data.query[i].User.username+
-                                            '<p>'+"Posted on "+data.query[i].Post.created+'</p>'+
+                                             data.query.User.username+
+                                            '<p>'+"Posted on "+data.query.Post.created+'</p>'+
                                           '</div>'+
                                         '</div>'+
                                     '</div>'+
-                                    '<p class="contentPost">'+data.query[i].Post.status+'</p>'+
-                                    '<div class="interaction comment-interact" user_id="'+authID+'" post_id="'+data.query[i].Post.id+'">'+
+                                    '<p class="contentPost">'+data.query.Post.status+'</p>'+
+                                    '<div class="interaction comment-interact" user_id="'+authID+'" post_id="'+data.query.Post.id+'">'+
                                          '<a href="#" class="commentTag">Comment | </a>'+
-                                        '<a href="/likes/isLike/'+data.query[i].Post.id+'" class="like">Like | </a>'+
-                                        '<a href="/posts/edit/'+data.query[i].Post.id+'">Edit | </a>'+
-                                         '<a href="javascript:;" data="'+data.query[i].Post.id+'" class="post-delete">Delete |</a>'+
+                                        '<a href="/likes/isLike/'+data.query.Post.id+'" class="like">Like | </a>'+
+                                        '<a href="/posts/edit/'+data.query.Post.id+'">Edit | </a>'+
+                                         '<a href="javascript:;" data="'+data.query.Post.id+'" class="post-delete">Delete |</a>'+
                                          '<a href="javascript:;" class="postBadge pull-right">Likes<span class="badge likeBadge">0</span></a>'+
                                          '<a href="javascript:;" class="postBadge pull-right">Comments<span class="badge commentBadge">0</span></a>'+
                                          '<div id="form-comment">'+
@@ -133,14 +134,14 @@ $(document).ready(function() {
                                                  ' <div class="form-group">'+
                                                       '<textarea class="form-control commentBox" name="comment" id="comment" rows="2" placeholder="Type your comment here.."></textarea>'+
                                                 '</div>'+
-                                                 '<input type="hidden" value="'+data.query[i].Post.id+'" class="form-control hiddenPost">'+
+                                                 '<input type="hidden" value="'+data.query.Post.id+'" class="form-control hiddenPost">'+
                                                  '<button type="submit" class="btn btn-default commentSubmit">Comment</button>'+
                                               '</form>'+
                                         '</div>'+
                                      '</div>'+
                             '</article>';
-                    }
-                    $('#showdata').html(html);
+                    //       
+                    $('#showdata').prepend(html);
                 },
                 error: function(){
                     alert('Could not add data');
@@ -227,8 +228,9 @@ $(document).ready(function() {
                         alert('Error');
                     }
                 },
-                error: function(){
+                error: function(data){
                     alert('Error deleting');
+                    console.log(data);
                 }
             });
         });
