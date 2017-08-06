@@ -37,7 +37,7 @@
     Router::connect('/register', array('controller' => 'users', 'action' => 'register'));
     Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
 
-    Router::connect('/', array('controller' => 'users', 'action' => 'login'));
+    // Router::connect('/', array('controller' => 'posts', 'action' => 'login'));
     Router::connect('/add', array('controller' => 'posts', 'action' => 'add'));
     Router::connect('/profile/:username', array('controller' => 'users', 'action' => 'profile'));
     Router::connect('/addComment/:id', array('controller' => 'comments', 'action' => 'addComment'));

@@ -48,4 +48,8 @@ class AppController extends Controller
     public function beforeFilter() {
         $this->Auth->allow('login');
     }
+
+    public function appError($error) {
+    $this->redirect('/dashboard');
+}
 }
