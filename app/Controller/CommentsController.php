@@ -43,9 +43,6 @@ class CommentsController extends AppController
                 ));
                     echo json_encode($query);
             }
-        
-        
-        $this->Session->setFlash(__('Unable to add your post.'));
     }
     /**
      *this function used to edit data in comment model in the edit.ctp view

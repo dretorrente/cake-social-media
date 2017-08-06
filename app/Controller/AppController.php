@@ -49,7 +49,7 @@ class AppController extends Controller
         $this->Auth->allow('login');
     }
 
-    public function appError($error) {
-    $this->redirect('/dashboard');
-}
+//     public function appError($error) {
+//     $this->redirect('/dashboard');
+// }
 }

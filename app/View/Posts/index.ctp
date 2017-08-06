@@ -26,7 +26,7 @@
             <div class="info postByUser">
                 <div class="row">
                     <div class="col-md-2">
-                        <a href="/profile/<?php echo h($post['User']['username']); ?>"><img src="img/<?php echo h($post['User']['upload']);?>" alt="sample profile pic" class="postImage"></a>
+                        <a href="/profile/<?php echo h($post['User']['username']); ?>"><img src="<?php echo h($post['User']['upload']);?>" alt="sample profile pic" class="postImage"></a>
                     </div>
                     <div class="col-md-6 userName">
                         <h4 ><?php echo __($post["User"]["username"]); ?></h4>
@@ -77,7 +77,7 @@
                         <?php foreach($post['Comment'] as $comment): ?>
                         <div class="row imageCol">
                             <div class="col-md-1 ">
-                                <img src="img/<?php echo h($comment['User']['upload']);?>" alt="sample profile pic" class="imageComment"  >
+                                <img src="<?php echo h($comment['User']['upload']);?>" alt="sample profile pic" class="imageComment"  >
                             </div>
                             <div class="col-md-10">
                                 <?php echo __($comment["User"]["username"]); ?>

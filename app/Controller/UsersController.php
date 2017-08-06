@@ -42,24 +42,20 @@ class UsersController extends AppController
         $this->layout = 'layoutUI';
         if ($this->request->is('post')) {
             //uploading image in the root document source image
-            if (!empty($this->request->data['User']['upload']['name']))
+            if (!empty($this->request->data))
             {
                 $file = $this->request->data['User']['upload'];
-                $ext = substr(strtolower(strrchr($file['name'], '.')), 1);
                 $arr_ext = array('jpg', 'jpeg', 'gif', 'png');
-
-                foreach($arr_ext as $arr)
+                $ext = substr(strtolower(strrchr($file['name'], '.')), 1);
+                 if(in_array($ext, $arr_ext))
                 {
-                    // renaming the filename path to be uploaded in the database
-                    if($arr == $ext)
-                    {
-                        $filetmp= 'img/' . $file['name'];
-                        $this->request->data['User']['upload']['name'] = $filetmp;
-                        $filenew =  $this->request->data['User']['upload']['name'];
-                        $this->request->data['User']['upload'] = $filenew;
-                    }
+                    move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img' . DS . 'profile' . DS .$file['name']);
+                    $filenew = '/img/profile/' . $file['name'];
+                    $this->request->data['User']['upload'] = $filenew;
                 }
+
             }
+            
             // create new user
             $this->User->create();
             if ($this->User->save($this->request->data)) {
@@ -69,6 +65,7 @@ class UsersController extends AppController
                 $this->Session->setFlash(__('The user could not be created. Please, try again.'));
             }
         }
+        
     }
     // function for profile view of each user
     public function profile() {

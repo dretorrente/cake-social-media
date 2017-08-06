@@ -24,7 +24,7 @@ $(document).ready(function() {
                 
                 html += '<div class="row imageCol">'+
                             '<div class="col-md-1 ">'+
-                            '<img src="/img/'+data.User.upload+'" alt="sample profile pic" class="imageComment">'+
+                            '<img src="'+data.User.upload+'" alt="sample profile pic" class="imageComment">'+
                             "</div>"+
                             '<div class="col-md-10">'+
                             data.User.username+
@@ -111,7 +111,7 @@ $(document).ready(function() {
                                     '<div class="info postByUser">'+
                                          '<div class="row">'+
                                              '<div class="col-md-2">'+
-                                                 '<a href="/profile/'+data.query.User.username+'"><img class="postImage" src="img/'+data.query.User.upload+'"></a>'+
+                                                 '<a href="/profile/'+data.query.User.username+'"><img class="postImage" src="'+data.query.User.upload+'"></a>'+
                                              '</div>'+
                                           '<div class="col-md-6 col-md-offset-2 userName">'+
                                              data.query.User.username+
