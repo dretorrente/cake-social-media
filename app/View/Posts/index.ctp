@@ -50,11 +50,8 @@
                
                 <?php if ($this->Session->read('Auth.User') && $post['Post']['user_id'] ==$this->Session->read('Auth.User.id')): ?>
 
-                    <?php
-                        echo __($this->Html->link(
-                    'Edit |', array('action' => 'edit', $post['Post']['id'])
-                    ));
-                    ?>
+                    <a href="javascript:;" data="<?php echo h($post['Post']['id']); ?>" class="post-edit">Edit |</a>
+
                     <a href="javascript:;" data="<?php echo h($post['Post']['id']); ?>" class="post-delete">Delete |</a>
                  <?php endif; ?>  
                 <!-- Getting total Likes -->
@@ -83,7 +80,7 @@
                                 <?php echo __($comment["User"]["username"]); ?>
                                 <p>Commented on <?php echo __($comment['modified']); ?></p>
                                 <div class="jumbotron" id="commentArea">
-                                    <p><?php echo __($comment['comment']); ?> </p>
+                                    <p class="contentComment"><?php echo __($comment['comment']); ?> </p>
                                 </div>
                                 <?php if ($this->Session->read('Auth.User') && $post['Post']['user_id'] ==$this->Session->read('Auth.User.id')): ?>
                                     <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-edit">Edit | </a>
@@ -94,8 +91,8 @@
                         <?php endforeach ?>
                     </div>
                     <form action="" method="post" >
-                        <div class="form-group">
-                            <textarea class="form-control commentBox" name="comment" id="comment" rows="2" placeholder="Type your comment here.."></textarea>
+                        <div class="form-group comment-group">
+                            <textarea class="form-control commentBox" name="commentBox" id="commentBox" rows="2" placeholder="Type your comment here.."></textarea>
                         </div>
                         <?php echo __($this->Form->input('id', array('type' => 'hidden', 'value' => $post['Post']['id'], 'class' => 'form-control hiddenPost')));  ?>
                         <button type="submit" class="btn btn-default commentSubmit">Comment</button>

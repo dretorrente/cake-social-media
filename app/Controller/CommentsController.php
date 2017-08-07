@@ -49,27 +49,27 @@ class CommentsController extends AppController
       @param int $id will get the value of the comment id
      */
     public function edit($id = null) {
-        $this->layout = 'layoutUI';
+         $this->autoRender = false;
+      
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
         }
 
-        $comment = $this->Comment->findById($id);
-        if (!$comment) {
-            throw new NotFoundException(__('Invalid post'));
-        }
-
         if ($this->request->is(array('post', 'put'))) {
+            date_default_timezone_set('Asia/Manila');
             $this->Comment->id = $id;
-            if ($this->Comment->save($this->request->data)) {
-                $this->layout = 'layoutUI';
-                $this->Flash->success(__('Your comment has been updated.'));
-                return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+            if ($this->Comment->saveField('comment', $this->request->data['comment'], false)) 
+            {
+                $comment = $this->Comment->findById($id);
+                $msg['comment'] = $comment['Comment']['comment'];
             }
+           
+          
         }
         if (!$this->request->data) {
-            $this->request->data = $comment;
+            $this->request->data = $post;
         }
+         return json_encode($msg);
     }
     /**
      *this function used to delete data in comment model

@@ -10,6 +10,7 @@
 <body>
 <!-- Navigation Bar -->
 <?php echo $this->element('delete_modal'); ?>
+<?php echo $this->element('edit_modal'); ?>
 <nav class="navbar navbar-default">
     <div class="container">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

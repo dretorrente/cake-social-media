@@ -9,41 +9,50 @@ $(document).ready(function() {
     });
     $( document).on("click",".commentSubmit",function(event){
             event.preventDefault();
+             var addComment = $(this).parent().find('.comment-group').find('.commentBox');
+             var result = '';
+             if(addComment.val()===''){
+                addComment.parent().addClass('has-error');
+             }else{
+                addComment.parent().removeClass('has-error');
+                result +='1';
+             }
             var commentPostID = $(this).parent().find('.hiddenPost').val();
-            var comment = $(this).parent().find('#comment').val();
+            var comment = $(this).parent().find('#commentBox').val();
             var $this = $(this);
-            $.ajax({
-                method: 'POST',
-                url: "/comments/addComment/"+commentPostID,
-                data: {comment: comment}
-            }).done(function(res){
-                var data = JSON.parse(res);
-                var html = '';
-                console.log(data);
-                var addComment = $('textarea[name=comment]');
+            if(result==='1'){
+                $.ajax({
+                    method: 'POST',
+                    url: "/comments/addComment/"+commentPostID,
+                    data: {comment: comment}
+                }).done(function(res){
+                    var data = JSON.parse(res);
+                    var html = '';                
+                    html += '<div class="row imageCol">'+
+                                '<div class="col-md-1 ">'+
+                                '<img src="'+data.User.upload+'" alt="sample profile pic" class="imageComment">'+
+                                "</div>"+
+                                '<div class="col-md-10">'+
+                                data.User.username+
+                                '<p>Commented on '+data.Comment.created+'</p>'+
+                                ' <div class="jumbotron" id="commentArea">'+
+                                '<p class="contentComment">'+data.Comment.comment+'</p>'+
+                                '</div>'+
+                                '<a href="javascript:;" data="'+data.Comment.id+'" class="comment-edit">Edit | </a>'+
+                                '<a href="javascript:;" data="'+data.Comment.id+'" class="comment-delete">Delete</a>'+
+                                '</div>'+
+                          '</div>';
                 
-                html += '<div class="row imageCol">'+
-                            '<div class="col-md-1 ">'+
-                            '<img src="'+data.User.upload+'" alt="sample profile pic" class="imageComment">'+
-                            "</div>"+
-                            '<div class="col-md-10">'+
-                            data.User.username+
-                            '<p>Commented on '+data.Comment.created+'</p>'+
-                            ' <div class="jumbotron" id="commentArea">'+
-                                    "<p>"+data.Comment.comment+"</p>"+
-                            '</div>'+
-                            '<a href="/comments/edit/'+data.Comment.id+'" class="comment-edit">Edit | </a>'+
-                            '<a href="javascript:;" data="'+data.Comment.id+'" class="comment-delete">Delete</a>'+
-                            '</div>'+
-                      '</div>';
-            
-                addComment.val('');
-                $this.parent().parent().find('#commentSection').append(html);
-                var commentSpan = $this.parent().parent().parent().find('.commentBadge').html();
-                var parseComment = parseInt(commentSpan);
-                $this.parent().parent().parent().find('.commentBadge').html(parseComment+1);
-            });
+                    addComment.val('');
+                    $this.parent().parent().find('#commentSection').append(html);
+                    var commentSpan = $this.parent().parent().parent().find('.commentBadge').html();
+                    var parseComment = parseInt(commentSpan);
+                    $this.parent().parent().parent().find('.commentBadge').html(parseComment+1);
+                });
+            }
         });
+
+
 
     $( document).on("click",".like",function(event){
         event.preventDefault();
@@ -78,7 +87,7 @@ $(document).ready(function() {
         });
     });
     //Add New
-    $( document).on("click","#btnAdd",function(e){
+    $(document).on('click','#btnAdd',function(e){
         e.preventDefault();
         var data = $('#createPost').serialize();
         //validate form
@@ -105,8 +114,7 @@ $(document).ready(function() {
                     var i;
                     var authID = data.userID;
                     console.log(data.query);
-                        html += 
-                             
+                        html +=                   
                                 '<article class="post">'+
                                     '<div class="info postByUser">'+
                                          '<div class="row">'+
@@ -123,7 +131,7 @@ $(document).ready(function() {
                                     '<div class="interaction comment-interact" user_id="'+authID+'" post_id="'+data.query.Post.id+'">'+
                                          '<a href="#" class="commentTag">Comment | </a>'+
                                         '<a href="/likes/isLike/'+data.query.Post.id+'" class="like">Like | </a>'+
-                                        '<a href="/posts/edit/'+data.query.Post.id+'">Edit | </a>'+
+                                        '<a href="javascript:;" data="'+data.query.Post.id+'" class="post-edit">Edit | </a>'+
                                          '<a href="javascript:;" data="'+data.query.Post.id+'" class="post-delete">Delete |</a>'+
                                          '<a href="javascript:;" class="postBadge pull-right">Likes<span class="badge likeBadge">0</span></a>'+
                                          '<a href="javascript:;" class="postBadge pull-right">Comments<span class="badge commentBadge">0</span></a>'+
@@ -131,8 +139,8 @@ $(document).ready(function() {
                                              '<div id="commentSection">'+
                                              '</div>'+
                                              '<form action="" method="post" >'+
-                                                 ' <div class="form-group">'+
-                                                      '<textarea class="form-control commentBox" name="comment" id="comment" rows="2" placeholder="Type your comment here.."></textarea>'+
+                                                 ' <div class="form-group comment-group">'+
+                                                      '<textarea class="form-control commentBox" name="commentBox" id="comment" rows="2" placeholder="Type your comment here.."></textarea>'+
                                                 '</div>'+
                                                  '<input type="hidden" value="'+data.query.Post.id+'" class="form-control hiddenPost">'+
                                                  '<button type="submit" class="btn btn-default commentSubmit">Comment</button>'+
@@ -235,6 +243,75 @@ $(document).ready(function() {
             });
         });
     });
+
+    $(document).on('click', '.post-edit', function(event){
+        event.preventDefault;
+        var id = $(this).attr('data');
+        $this = $(this);
+        var postStatusElement = $(this).parent().parent().find('.contentPost');
+        var postBody = postStatusElement.html()
+        $('#status-edit').val(postBody);
+        $('#editModal').modal('show');
+        $('#editModal').find('.modal-title').text('Edit Post');
+        $('#btnSave').unbind().click(function(){
+            $.ajax({
+                type: 'ajax',
+                method: 'PUT',
+                async: false,
+                url: '/posts/edit/'+id,
+                data: {status: $('#status-edit').val()},
+                dataType: 'json',
+            }).done(function(msg)
+            {
+                // console.log(msg.status);
+                $('#editModal').modal('hide');
+                $('#myForm')[0].reset();
+                $(postStatusElement).text(msg.status);
+                $('.alert-success').html('Post edit successfully').fadeIn().delay(4000).fadeOut('slow');
+
+            
+            });
+        });
+
+
+    });
+
+     $(document).on('click', '.comment-edit', function(event){
+        event.preventDefault;
+        var id = $(this).attr('data');
+        $this = $(this);
+        var commentElement = $(this).parent().find('#commentArea').find('.contentComment');
+        var commentBody = commentElement.html();
+        $('#editModal').modal('show');
+        $('#editModal').find('.modal-title').text('Edit Comment');
+         $('#status-edit').val(commentBody);
+        $('#btnSave').unbind().click(function(){
+            $.ajax({
+                type: 'ajax',
+                method: 'PUT',
+                async: false,
+                url: '/comments/edit/'+id,
+                data: {comment: $('#status-edit').val()},
+                dataType: 'json',
+            }).done(function(msg)
+            {
+                $('#editModal').modal('hide');
+                $('#myForm')[0].reset();
+                $(commentElement).text(msg.comment);
+                $('.alert-success').html('Comment edit successfully').fadeIn().delay(4000).fadeOut('slow');
+
+            
+            });
+        });
+
+
+    });
+    
+
+
+
+
+
 });
 
 

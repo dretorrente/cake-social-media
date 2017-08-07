@@ -64,27 +64,27 @@ class PostsController extends AppController
     }
     //edit existing post
     public function edit($id = null) {
-        $this->layout = 'layoutUI';
+         $this->autoRender = false;
+      
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
         }
-        $post = $this->Post->findById($id);
-        if (!$post) {
-            throw new NotFoundException(__('Invalid post'));
-        }
+
         if ($this->request->is(array('post', 'put'))) {
             date_default_timezone_set('Asia/Manila');
             $this->Post->id = $id;
-            if ($this->Post->save($this->request->data)) {
-                $this->layout = 'layoutUI';
-                $this->Flash->success(__('Your post has been updated.'));
-                return $this->redirect(array('action' => 'index'));
+            if ($this->Post->saveField('status', $this->request->data['status'], false)) 
+            {
+                $post = $this->Post->findById($id);
+                $msg['status'] = $post['Post']['status'];
             }
-            $this->Flash->error(__('Unable to update your post.'));
+           
+          
         }
         if (!$this->request->data) {
             $this->request->data = $post;
         }
+         return json_encode($msg);
     }
     //delete existing post
     public function delete($id) {
@@ -122,6 +122,6 @@ class PostsController extends AppController
             $msg['success'] = false;
         }
 
-       echo json_encode($msg);
+       return json_encode($msg);
     }
 }

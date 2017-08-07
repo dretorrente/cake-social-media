@@ -66,11 +66,7 @@
                             <?php endif ?>
                         <?php endforeach ?>
                         <a href="/likes/isLike/<?php echo h($post['id']); ?>" class="like"><?php if(empty($likeName)):?><?php echo __("Like |"); ?> <?php else: ?> <?php echo __($likeName ." |"); ?> <?php endif; ?> </a>
-                        <?php
-                            echo __($this->Html->link(
-                        'Edit |', array('controller' => 'posts','action' => 'edit', $post['id'])
-                        ));
-                        ?>
+                         <a href="javascript:;" data="<?php echo $post['id']; ?>" class="post-edit">Edit</a>
                         <a href="javascript:;" data="<?php echo $post['id']; ?>" class="post-delete">Delete</a>
                         <!-- Getting total Likes -->
                         <?php $totalLike = 0; ?>
@@ -97,7 +93,7 @@
                                         <?php echo __($comment["User"]["username"]); ?>
                                         <p>Commented on <?php echo __($comment['modified']); ?></p>
                                         <div class="jumbotron" id="commentArea">
-                                            <p><?php echo __($comment['comment']); ?> </p>
+                                            <p class="contentComment"><?php echo __($comment['comment']); ?> </p>
                                         </div>
                                         <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-edit">Edit | </a>
                                         <a href="javascript:;" data="<?php echo __($comment['id']); ?>" class="comment-delete">Delete</a>
@@ -106,8 +102,8 @@
                                 <?php endforeach ?>
                             </div>
                             <form action="" method="post" >
-                                <div class="form-group">
-                                    <textarea class="form-control commentBox" name="comment" id="comment" rows="2" placeholder="Type your comment here.."></textarea>
+                                <div class="form-group comment-group">
+                                    <textarea class="form-control commentBox" name="commentBox" id="commentBox" rows="2" placeholder="Type your comment here.."></textarea>
                                 </div>
                                 <?php echo __($this->Form->input('id', array('type' => 'hidden', 'value' => $post['id'], 'class' => 'form-control hiddenPost')));  ?>
                                 <button type="submit" class="btn btn-default commentSubmit">Comment</button>
