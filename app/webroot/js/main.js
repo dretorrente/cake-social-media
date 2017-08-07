@@ -214,7 +214,6 @@ $(document).ready(function() {
             }
         });
     });
-
     $(document).on('click', '.post-delete', function(){
         var id = $(this).attr('data');
         $this = $(this);
@@ -269,11 +268,9 @@ $(document).ready(function() {
                 $('#myForm')[0].reset();
                 $(postStatusElement).text(msg.status);
                 $('.alert-success').html('Post edit successfully').fadeIn().delay(4000).fadeOut('slow');
-
-            
+    
             });
         });
-
 
     });
 
@@ -300,18 +297,11 @@ $(document).ready(function() {
                 $('#myForm')[0].reset();
                 $(commentElement).text(msg.comment);
                 $('.alert-success').html('Comment edit successfully').fadeIn().delay(4000).fadeOut('slow');
-
-            
+    
             });
         });
 
-
     });
-    
-
-
-
-
 
 });
 

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: YNS
- * Date: 26/07/2017
- * Time: 1:40 PM
- */
 class UsersController extends AppController
 {
 
@@ -17,7 +11,10 @@ class UsersController extends AppController
         parent::beforeFilter();
         $this->Auth->allow('login','register');
     }
-    // function to login existing user
+
+     /**
+     * this function allows to login existing user
+     */
     public function login() {
     $this->layout = 'layoutUI';
     //if already logged-in, redirect
@@ -33,11 +30,15 @@ class UsersController extends AppController
             }
         }
     }
-    // function to logout a user
+     /**
+     * this function allows to logout existing user
+     */
     public function logout() {
         $this->redirect($this->Auth->logout());
     }
-    // function to register a new user
+    /**
+     * this function allows to register a new user
+     */
     public function register() {
         $this->layout = 'layoutUI';
         if ($this->request->is('post')) {
@@ -67,7 +68,9 @@ class UsersController extends AppController
         }
         
     }
-    // function for profile view of each user
+    /**
+     * this function allows to view profile of each user
+     */
     public function profile() {
         $this->layout = 'layoutUI';
         $username = $this->request->params['username'];

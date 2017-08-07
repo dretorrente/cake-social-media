@@ -14,7 +14,7 @@ class CommentsController extends AppController
 
 
     /**
-     *this function used to save data in comment model
+     *this function used to save data in Comment model
      @param int $id will get the value of the post_id
      * $userID int will store the auth user id
      * $comments is a variable with object return data type
@@ -45,8 +45,10 @@ class CommentsController extends AppController
             }
     }
     /**
-     *this function used to edit data in comment model in the edit.ctp view
-      @param int $id will get the value of the comment id
+     * this function used to edit data in comment model
+       @param int $id will get the value of the comment id
+     * $comment variable to get the last input Comment
+     * return type json variable $msg for Comment model object
      */
     public function edit($id = null) {
          $this->autoRender = false;
@@ -74,8 +76,7 @@ class CommentsController extends AppController
     /**
      *this function used to delete data in comment model
      @param int $id will get the value of the comment id
-     * $msg is a variable with object return data type
-     * return type json
+     * return type json variable $msg with data type boolean
      */
     public function delete($id)
     {

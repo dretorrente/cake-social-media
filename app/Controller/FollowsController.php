@@ -8,7 +8,6 @@ class FollowsController extends AppController
     /**
      * this function used to add data in Follow model
      * @param int $id will get the value of the user id you want to follow
-     * $msg is a variable with object return data type
      * a date default timezone is set to Asia/Manila for created and modified datetime
      * $userID int will store the auth user id
      * $respondFollow boolean will store the result value isFollow in the Follow Model

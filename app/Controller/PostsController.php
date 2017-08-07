@@ -1,17 +1,17 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: YNS
- * Date: 24/07/2017
- * Time: 2:59 PM
- */
+
 class PostsController extends AppController
 {
     public $uses = array('Post', 'Comment', 'User', 'Follow', 'Like');
     public $helpers = array('Html', 'Form', 'Time');
 
-    //view for the dashboard renamed in routes index.ctp
+
+    /**
+     * this function used render the view for the dashboard renamed in routes   
+     * index.ctp
+     * $query contains all the posts that will be sent to view index.ctp
+     */
     public function index() {
          $this->layout = 'layoutUI';
 
@@ -30,6 +30,13 @@ class PostsController extends AppController
         $this->set('posts', $query);
 
     }
+    /**
+     *this function used to add post in Post model
+     * $userID int will store the auth user id
+     * a date default timezone is set to Asia/Manila for created and modified 
+     * $comments is a variable with object return data type
+     * return type array json passing the user_id and the post to be added;
+     */
     //add new post
     public function add() {
         $this->autoRender = false;
@@ -49,20 +56,13 @@ class PostsController extends AppController
             }
         }
     }
-    public function showAllPost(){
-        $this->autoRender = false;
-        $authID = $this->Auth->user('id');
-        $query = $this->Post->find('all', array(
-            'order' => 'Post.modified DESC',
-            'recursive' => 1
-        ));
-        $comments = $this->Comment->find('all', array(
-            'recursive' => 1
-        ));
-        echo json_encode(array("authID" => $authID, "query" => $query, "comments" => $comments));
-
-    }
-    //edit existing post
+  
+     /**
+     * this function used to edit existing post
+       @param int $id will get the value of the post id
+     * $post variable to get the last input post
+     * return type json variable $msg for Post model status
+     */
     public function edit($id = null) {
          $this->autoRender = false;
       
@@ -86,7 +86,12 @@ class PostsController extends AppController
         }
          return json_encode($msg);
     }
-    //delete existing post
+     /**
+     * this function used to delete existing post
+       @param int $id will get the value of the post id
+     * it will also delete the likes and comments contain in the post
+     * return type json variable $msg for boolean success
+     */
     public function delete($id) {
 
         $this->autoRender = false;

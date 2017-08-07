@@ -14,14 +14,16 @@ class LikesController extends AppController
 
 
     /**
-     * this function used to add data in Like Model
+     * this function check whether a the user already like the post or not and 
+     * creating new Like
      * $userid will get
      * a date default timezone is set to Asia/Manila for created and modified datetime
      * $userID int will store the auth user id
-     * $respondFollow boolean will store the result value isFollow in the Follow Model
-     * return type json
+     * $respondLike boolean will store the result value isLike in the Like Model
+     * $likeCount integer to count all likes in post
+     * return type array json 
      */
-    //this function check whether a the user already like the post or not and creating new Like
+    
     public function isLike()
     {
         $this->layout = 'layoutUI';

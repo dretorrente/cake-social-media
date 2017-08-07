@@ -13,7 +13,6 @@
                 <?php foreach($user['Follow'] as $userFollow): ?>
                     <?php if($userFollow['isFollow'] == true && $userFollow['user_id'] == $user['User']['id']): ?>
                         <?php $totalFollow++; ?>
-
                     <?php endif ?>
                 <?php endforeach ?>
                 <a href="#" class="FollowerBadge">Following<span class="badge following-class"><?php echo h($totalFollow); ?></span></a>
